@@ -57,7 +57,7 @@ final class PoiBundleExtension extends CompilerExtension implements DatabaseType
 			$builder->addDefinition($this->prefix('attribute.collection.lazy.' . $normalizedName))
 				->setType(AttributeCollectionInterface::class)
 				->setFactory(LazyAttributeCollection::class, [
-					$this->prefix('@attribute.collection.factory' . $normalizedName),
+					$this->prefix('@attribute.collection.factory.' . $normalizedName),
 				])
 				->setAutowired(FALSE);
 
