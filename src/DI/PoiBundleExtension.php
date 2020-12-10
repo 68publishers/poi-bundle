@@ -47,40 +47,44 @@ final class PoiBundleExtension extends CompilerExtension implements DatabaseType
 		$builder = $this->getContainerBuilder();
 
 		foreach ($this->config->attributes as $name => $attributeConfig) {
-			$builder->addDefinition($this->prefix('attribute.collection.factory.' . $name))
+			$normalizedName = str_replace('\\', '_', $name);
+
+			$builder->addDefinition($this->prefix('attribute.collection.factory.' . $normalizedName))
 				->setType(AttributeCollectionFactoryInterface::class)
 				->setFactory($attributeConfig->factory)
 				->setAutowired(FALSE);
 
-			$builder->addDefinition($this->prefix('attribute.collection.lazy.' . $name))
+			$builder->addDefinition($this->prefix('attribute.collection.lazy.' . $normalizedName))
 				->setType(AttributeCollectionInterface::class)
-				->setFactory(LazyAttributeCollection::class, ['@attribute.collection.factory' . $name])
+				->setFactory(LazyAttributeCollection::class, [
+					$this->prefix('@attribute.collection.factory' . $normalizedName),
+				])
 				->setAutowired(FALSE);
 
-			$builder->addDefinition($this->prefix('attribute.value.collection_serializer.' . $name . '.array'))
+			$builder->addDefinition($this->prefix('attribute.value.collection_serializer.' . $normalizedName . '.array'))
 				->setType(CollectionSerializerInterface::class)
 				->setFactory(ArrayValueCollectionSerializer::class)
 				->setAutowired(FALSE);
 
-			$builder->addDefinition($this->prefix('attribute.value.collection_serializer.' . $name . '.attribute'))
+			$builder->addDefinition($this->prefix('attribute.value.collection_serializer.' . $normalizedName . '.attribute'))
 				->setType(CollectionSerializerInterface::class)
 				->setFactory(AttributeValueCollectionSerializer::class, [
-					'@attribute.value.collection_serializer.' . $name . '.array',
-					'@attribute.collection.lazy.' . $name,
+					$this->prefix('@attribute.value.collection_serializer.' . $normalizedName . '.array'),
+					$this->prefix('@attribute.collection.lazy.' . $normalizedName),
 				])
 				->setAutowired(FALSE);
 
-			$builder->addDefinition($this->prefix('attribute.value.collection_serializer.' . $name . '.object'))
+			$builder->addDefinition($this->prefix('attribute.value.collection_serializer.' . $normalizedName . '.object'))
 				->setType(CollectionSerializerInterface::class)
 				->setFactory(ObjectValueCollectionSerializer::class, [
-					'@attribute.value.collection_serializer.' . $name . '.attribute',
+					$this->prefix('@attribute.value.collection_serializer.' . $normalizedName . '.attribute'),
 					$attributeConfig->value_collection_class,
 				])
 				->setAutowired(FALSE);
 
-			$builder->addDefinition($this->prefix('attribute.value.collection_serializer.' . $name))
+			$builder->addDefinition($this->prefix('attribute.value.collection_serializer.' . $normalizedName))
 				->setType(CollectionSerializerInterface::class)
-				->setFactory('@attribute.value.collection_serializer.' . $name . '.object')
+				->setFactory($this->prefix('@attribute.value.collection_serializer.' . $normalizedName . '.object'))
 				->setAutowired(FALSE);
 		}
 	}
@@ -90,8 +94,11 @@ final class PoiBundleExtension extends CompilerExtension implements DatabaseType
 	 */
 	public function getDatabaseTypes(): array
 	{
-		return array_map(static function (string $name) {
-			new DatabaseType($name, AttributesType::class);
+		return array_map(function (string $name) {
+			new DatabaseType($name, AttributesType::class, NULL, [
+				AttributesType::CONTEXT_KEY_NAME => $name,
+				AttributesType::CONTEXT_KEY_SERVICE_NAME => $this->prefix('attribute.value.collection_serializer.' . str_replace('\\', '_', $name)),
+			]);
 		}, array_keys((array) $this->config->attributes));
 	}
 }
