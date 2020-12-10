@@ -95,7 +95,7 @@ final class PoiBundleExtension extends CompilerExtension implements DatabaseType
 	public function getDatabaseTypes(): array
 	{
 		return array_map(function (string $name) {
-			new DatabaseType($name, AttributesType::class, NULL, [
+			return new DatabaseType($name, AttributesType::class, NULL, [
 				AttributesType::CONTEXT_KEY_NAME => $name,
 				AttributesType::CONTEXT_KEY_SERVICE_NAME => $this->prefix('attribute.value.collection_serializer.' . str_replace('\\', '_', $name)),
 			]);
