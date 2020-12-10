@@ -6,18 +6,17 @@ namespace SixtyEightPublishers\PoiBundle\Attribute\Collection;
 
 use Traversable;
 use SixtyEightPublishers\PoiBundle\Attribute\AttributeInterface;
-use SixtyEightPublishers\PoiBundle\Attribute\Factory\AttributeCollectionFactoryInterface;
 
 final class LazyAttributeCollection implements AttributeCollectionInterface
 {
-	/** @var \SixtyEightPublishers\PoiBundle\Attribute\Factory\AttributeCollectionFactoryInterface|NULL  */
+	/** @var \SixtyEightPublishers\PoiBundle\Attribute\Collection\AttributeCollectionFactoryInterface|NULL  */
 	private $attributeCollectionFactory;
 
 	/** @var \SixtyEightPublishers\PoiBundle\Attribute\Collection\AttributeCollectionInterface|NULL */
 	private $innerCollection;
 
 	/**
-	 * @param \SixtyEightPublishers\PoiBundle\Attribute\Factory\AttributeCollectionFactoryInterface $attributeCollectionFactory
+	 * @param \SixtyEightPublishers\PoiBundle\Attribute\Collection\AttributeCollectionFactoryInterface $attributeCollectionFactory
 	 */
 	public function __construct(AttributeCollectionFactoryInterface $attributeCollectionFactory)
 	{
