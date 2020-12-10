@@ -1,0 +1,51 @@
+{
+	"name": "68publishers/poi-bundle",
+	"description": "",
+	"keywords": ["68publishers", "poi", "bundle", "nette"],
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Tomáš Glawaty",
+			"email": "tomasglawaty@icloud.com"
+		}
+	],
+	"require": {
+		"php": "^7.3",
+		"68publishers/doctrine-bridge": "^0.1.1",
+		"doctrine/orm": "^2.7",
+		"nette/di": "^3.0.3"
+	},
+	"require-dev": {
+		"friendsofphp/php-cs-fixer": "^2.0",
+		"nette/tester": "^2.3.4",
+		"nette/utils": "^3.0",
+		"roave/security-advisories": "dev-master"
+	},
+	"autoload": {
+		"psr-4": {
+			"SixtyEightPublishers\\PoiBundle\\": "src/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"SixtyEightPublishers\\PoiBundle\\Tests\\": "tests/"
+		}
+	},
+	"config": {
+		"sort-packages": true
+	},
+	"scripts": {
+		"tests": [
+			"@tests:lowest",
+			"@tests:highest"
+		],
+		"tests:lowest" : [
+			"@composer update --no-progress --prefer-dist --prefer-lowest --prefer-stable",
+			"vendor/bin/tester ./tests"
+		],
+		"tests:highest" : [
+			"@composer update --no-progress --prefer-dist --prefer-stable",
+			"vendor/bin/tester ./tests"
+		]
+	}
+}
