@@ -12,13 +12,13 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
 use SixtyEightPublishers\PoiBundle\Exception\RuntimeException;
 use SixtyEightPublishers\PoiBundle\Exception\InvalidArgumentException;
 use SixtyEightPublishers\DoctrineBridge\Type\ContainerAwareTypeInterface;
+use SixtyEightPublishers\PoiBundle\Attribute\Stack\StackProviderInterface;
 use SixtyEightPublishers\PoiBundle\Attribute\Value\ValueCollectionInterface;
 use SixtyEightPublishers\PoiBundle\Attribute\Value\CollectionSerializer\CollectionSerializerInterface;
 
 final class AttributesType extends Type implements ContainerAwareTypeInterface
 {
 	public const CONTEXT_KEY_NAME = 'name';
-	public const CONTEXT_KEY_SERVICE_NAME = 'service_name';
 
 	/** @var string|NULL */
 	private $name;
@@ -33,7 +33,7 @@ final class AttributesType extends Type implements ContainerAwareTypeInterface
 	 */
 	public function setContainer(Container $container, array $context = []): void
 	{
-		if (!isset($context[self::CONTEXT_KEY_NAME], $context[self::CONTEXT_KEY_SERVICE_NAME])) {
+		if (!isset($context[self::CONTEXT_KEY_NAME])) {
 			throw new InvalidArgumentException(sprintf(
 				'Invalid context passed into %s.',
 				__METHOD__
@@ -41,7 +41,9 @@ final class AttributesType extends Type implements ContainerAwareTypeInterface
 		}
 
 		$this->setName($context[self::CONTEXT_KEY_NAME]);
-		$this->setValueCollectionSerializer($container->getService($context[self::CONTEXT_KEY_SERVICE_NAME]));
+		$this->setValueCollectionSerializer(
+			$container->getByType(StackProviderInterface::class)->getStack($context[self::CONTEXT_KEY_NAME])->getValueCollectionSerializer()
+		);
 	}
 
 	/**
@@ -91,7 +93,11 @@ final class AttributesType extends Type implements ContainerAwareTypeInterface
 		}
 
 		try {
-			return $this->getValueCollectionSerializer()->serialize($value);
+			$serialized = $this->getValueCollectionSerializer()->serialize($value);
+
+			$value->changeState(ValueCollectionInterface::STATE_MANAGED);
+
+			return $serialized;
 		} catch (JsonException $e) {
 			throw ConversionException::conversionFailedSerialization($value, 'json', $e->getMessage());
 		}
@@ -109,7 +115,11 @@ final class AttributesType extends Type implements ContainerAwareTypeInterface
 		}
 
 		try {
-			return $this->getValueCollectionSerializer()->deserialize($value);
+			$value = $this->getValueCollectionSerializer()->deserialize($value);
+
+			$value->changeState(ValueCollectionInterface::STATE_MANAGED);
+
+			return $value;
 		} catch (JsonException $e) {
 			throw ConversionException::conversionFailed($value, $this->getName());
 		}

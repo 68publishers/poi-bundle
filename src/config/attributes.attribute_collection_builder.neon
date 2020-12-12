@@ -1,0 +1,6 @@
+services:
+	attributes.attribute_collection_builder:
+		type: SixtyEightPublishers\PoiBundle\Attribute\Collection\Builder\AttributeCollectionBuilderFactoryInterface
+		factory: SixtyEightPublishers\PoiBundle\Attribute\Collection\Builder\AttributeCollectionBuilderFactory(
+			@extension.attributes.attribute_builder_factory
+		)

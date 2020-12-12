@@ -1,0 +1,5 @@
+services:
+	attributes.attribute_builder_factory:
+		autowired: no
+		type: SixtyEightPublishers\PoiBundle\Attribute\Builder\AttributeBuilderFactoryInterface
+		factory: SixtyEightPublishers\PoiBundle\Attribute\Builder\AttributeBuilderFactory
