@@ -7,11 +7,8 @@ namespace SixtyEightPublishers\PoiBundle\Attribute;
 use SixtyEightPublishers\PoiBundle\Exception\AttributeValueException;
 use SixtyEightPublishers\PoiBundle\Attribute\Value\ValueCollectionInterface;
 
-final class ValidatableAttribute implements AttributeInterface
+final class ValidatableAttribute extends AbstractAttributeDecorator
 {
-	/** @var \SixtyEightPublishers\PoiBundle\Attribute\AttributeInterface  */
-	private $attribute;
-
 	/** @var callable  */
 	private $validator;
 
@@ -25,7 +22,8 @@ final class ValidatableAttribute implements AttributeInterface
 	 */
 	public function __construct(AttributeInterface $attribute, callable $validator, bool $validateOnGet = FALSE)
 	{
-		$this->attribute = $attribute;
+		parent::__construct($attribute);
+
 		$this->validator = $validator;
 		$this->validateOnGet = $validateOnGet;
 	}
@@ -33,25 +31,9 @@ final class ValidatableAttribute implements AttributeInterface
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getName(): string
-	{
-		return $this->attribute->getName();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function isNullable(): bool
-	{
-		return $this->attribute->isNullable();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
 	public function getValue(ValueCollectionInterface $valueCollection)
 	{
-		$value = $this->attribute->getValue($valueCollection);
+		$value = parent::getValue($valueCollection);
 
 		if ($this->validateOnGet) {
 			$this->validate($value);
@@ -66,25 +48,7 @@ final class ValidatableAttribute implements AttributeInterface
 	public function setValue(ValueCollectionInterface $valueCollection, $value): void
 	{
 		$this->validate($value);
-		$this->attribute->setValue($valueCollection, $value);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function setExtra(array $extra): AttributeInterface
-	{
-		$this->attribute->setExtra($extra);
-
-		return $this;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getExtra(?string $key = NULL)
-	{
-		return $this->attribute->getExtra($key);
+		parent::setValue($valueCollection, $value);
 	}
 
 	/**

@@ -6,13 +6,10 @@ namespace SixtyEightPublishers\PoiBundle\Attribute;
 
 use SixtyEightPublishers\PoiBundle\Attribute\Value\ValueCollectionInterface;
 
-final class ModifiableAttribute implements AttributeInterface
+final class ModifiableAttribute extends AbstractAttributeDecorator
 {
 	public const MODIFIER_GET_VALUE = 'getValue';
 	public const MODIFIER_SET_VALUE = 'setValue';
-
-	/** @var \SixtyEightPublishers\PoiBundle\Attribute\AttributeInterface  */
-	private $attribute;
 
 	/** @var array  */
 	private $modifiers;
@@ -23,24 +20,9 @@ final class ModifiableAttribute implements AttributeInterface
 	 */
 	public function __construct(AttributeInterface $attribute, array $modifiers = [])
 	{
-		$this->attribute = $attribute;
+		parent::__construct($attribute);
+
 		$this->modifiers = $modifiers;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getName(): string
-	{
-		return $this->attribute->getName();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function isNullable(): bool
-	{
-		return $this->attribute->isNullable();
 	}
 
 	/**
@@ -48,7 +30,7 @@ final class ModifiableAttribute implements AttributeInterface
 	 */
 	public function getValue(ValueCollectionInterface $valueCollection)
 	{
-		return $this->modify($this->attribute->getValue($valueCollection), self::MODIFIER_GET_VALUE);
+		return $this->modify(parent::getValue($valueCollection), self::MODIFIER_GET_VALUE);
 	}
 
 	/**
@@ -56,25 +38,7 @@ final class ModifiableAttribute implements AttributeInterface
 	 */
 	public function setValue(ValueCollectionInterface $valueCollection, $value): void
 	{
-		$this->attribute->setValue($valueCollection, $this->modify($value, self::MODIFIER_SET_VALUE));
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function setExtra(array $extra): AttributeInterface
-	{
-		$this->attribute->setExtra($extra);
-
-		return $this;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getExtra(?string $key = NULL)
-	{
-		return $this->attribute->getExtra($key);
+		parent::setValue($valueCollection, $this->modify($value, self::MODIFIER_SET_VALUE));
 	}
 
 	/**

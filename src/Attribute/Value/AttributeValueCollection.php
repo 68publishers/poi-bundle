@@ -54,4 +54,20 @@ final class AttributeValueCollection implements ValueCollectionInterface
 
 		return new ArrayIterator($array);
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getState(): int
+	{
+		return $this->valueCollection->getState();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function changeState(int $state): void
+	{
+		$this->valueCollection->changeState($state);
+	}
 }

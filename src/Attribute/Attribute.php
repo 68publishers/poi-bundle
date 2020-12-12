@@ -82,6 +82,14 @@ final class Attribute implements AttributeInterface
 	/**
 	 * {@inheritDoc}
 	 */
+	public function lookDown(string $type): ?AttributeInterface
+	{
+		return $this instanceof $type ? $this : NULL;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public function setExtra(array $extra): AttributeInterface
 	{
 		$this->extra = $extra;

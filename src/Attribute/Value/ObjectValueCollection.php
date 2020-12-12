@@ -74,4 +74,20 @@ class ObjectValueCollection implements ValueCollectionInterface
 	{
 		$this->inner->setValue($name, $value);
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getState(): int
+	{
+		return $this->inner->getState();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function changeState(int $state): void
+	{
+		$this->inner->changeState($state);
+	}
 }

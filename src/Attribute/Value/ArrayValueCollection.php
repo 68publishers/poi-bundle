@@ -6,11 +6,15 @@ namespace SixtyEightPublishers\PoiBundle\Attribute\Value;
 
 use ArrayIterator;
 use SixtyEightPublishers\PoiBundle\Exception\AttributeValueException;
+use SixtyEightPublishers\PoiBundle\Exception\InvalidArgumentException;
 
 final class ArrayValueCollection implements ValueCollectionInterface
 {
 	/** @var array  */
 	private $values;
+
+	/** @var int  */
+	private $state = self::STATE_NEW;
 
 	/**
 	 * @param array $values
@@ -38,6 +42,10 @@ final class ArrayValueCollection implements ValueCollectionInterface
 	public function setValue(string $name, $value): void
 	{
 		$this->values[$name] = $value;
+
+		if (self::STATE_MANAGED === $this->state) {
+			$this->state = self::STATE_UPDATED;
+		}
 	}
 
 	/**
@@ -46,5 +54,25 @@ final class ArrayValueCollection implements ValueCollectionInterface
 	public function getIterator(): ArrayIterator
 	{
 		return new ArrayIterator($this->values);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getState(): int
+	{
+		return $this->state;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function changeState(int $state): void
+	{
+		if (!in_array($state, [self::STATE_NEW, self::STATE_MANAGED, self::STATE_UPDATED], TRUE)) {
+			throw new InvalidArgumentException('Invalid state passed.');
+		}
+
+		$this->state = $state;
 	}
 }

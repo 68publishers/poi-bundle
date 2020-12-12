@@ -8,8 +8,6 @@ use SixtyEightPublishers\PoiBundle\Attribute\Value\ValueCollectionInterface;
 
 interface AttributeInterface
 {
-	public const EXTRA_KEY_SERIALIZER = 'serializer';
-
 	/**
 	 * @return string
 	 */
@@ -36,6 +34,13 @@ interface AttributeInterface
 	 * @throws \SixtyEightPublishers\PoiBundle\Exception\AttributeValueException
 	 */
 	public function setValue(ValueCollectionInterface $valueCollection, $value): void;
+
+	/**
+	 * @param string $type
+	 *
+	 * @return mixed|\SixtyEightPublishers\PoiBundle\Attribute\AttributeInterface|NULL
+	 */
+	public function lookDown(string $type): ?AttributeInterface;
 
 	/**
 	 * @param array $extra

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace SixtyEightPublishers\PoiBundle\Attribute\Value\CollectionSerializer;
 
-use SixtyEightPublishers\PoiBundle\Attribute\AttributeInterface;
 use SixtyEightPublishers\PoiBundle\Attribute\Value\ArrayValueCollection;
 use SixtyEightPublishers\PoiBundle\Attribute\Value\AttributeValueCollection;
 use SixtyEightPublishers\PoiBundle\Attribute\Value\ValueCollectionInterface;
@@ -30,9 +29,9 @@ final class AttributeValueCollectionSerializer implements CollectionSerializerIn
 
 		/** @var \SixtyEightPublishers\PoiBundle\Attribute\AttributeInterface $attribute */
 		foreach ($attributeCollection as $attribute) {
-			$valueSerializer = $attribute->getExtra(AttributeInterface::EXTRA_KEY_SERIALIZER);
+			$valueSerializer = $attribute->lookDown(ValueSerializerInterface::class);
 
-			if ($valueSerializer instanceof ValueSerializerInterface) {
+			if (NULL !== $valueSerializer) {
 				$this->addValueSerializer($attribute->getName(), $valueSerializer);
 			}
 		}
