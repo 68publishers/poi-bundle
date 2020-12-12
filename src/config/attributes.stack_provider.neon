@@ -4,6 +4,5 @@ services:
 		factory: @extension.attributes.stack_provider.default
 
 	attributes.stack_provider.default:
-		autowired: no
 		type: SixtyEightPublishers\PoiBundle\Attribute\Stack\StackProviderInterface
 		factory: SixtyEightPublishers\PoiBundle\Attribute\Stack\StackProvider
