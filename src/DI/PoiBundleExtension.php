@@ -92,7 +92,7 @@ final class PoiBundleExtension extends CompilerExtension implements DatabaseType
 	private function registerStack(string $name, object $config): void
 	{
 		$builder = $this->getContainerBuilder();
-		$normalizedName = str_replace('\\', '_', $name);
+		$normalizedName = strtolower(str_replace('\\', '_', $name));
 
 		$builder->addDefinition($this->prefix('attributes.attribute_collection_factory.' . $normalizedName))
 			->setType(AttributeCollectionFactoryInterface::class)
@@ -140,7 +140,7 @@ final class PoiBundleExtension extends CompilerExtension implements DatabaseType
 				'name' => $name,
 				'attributeCollection' => $this->prefix('@attributes.attribute_collection.lazy.' . $normalizedName),
 				'valueCollectionClassName' => $config->dbal_type ? $config->value_collection_class : NULL,
-				'collectionSerializer' => $config->dbal_type ? $this->prefix('attributes.value_collection_serializer.' . $normalizedName) : NULL,
+				'collectionSerializer' => $config->dbal_type ? $this->prefix('@attributes.value_collection_serializer.' . $normalizedName) : NULL,
 			]);
 	}
 }
