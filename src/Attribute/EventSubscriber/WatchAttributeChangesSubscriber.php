@@ -145,8 +145,8 @@ final class WatchAttributeChangesSubscriber implements EventSubscriber
 			$this->attributesDoctrineTypeNames = array_filter(
 				array_map(
 					static function (StackInterface $stack) {
-					return NULL !== $stack->getValueCollectionClassName() ? $stack->getName() : NULL;
-				},
+						return NULL !== $stack->getValueCollectionClassName() ? $stack->getName() : NULL;
+					},
 					iterator_to_array($this->stackProvider)
 				)
 			);
