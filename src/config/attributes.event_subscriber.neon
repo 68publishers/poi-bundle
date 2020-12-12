@@ -1,6 +1,6 @@
 services:
 	attributes.event_subscriber.watch_attribute_changes:
 		autowired: no
-		type: SixtyEightPublishers\PoiBundle\Attribute\EventSubscriber\WatchAttributeChangesSubscriber(
-			@extension.attributes.stack_provider
-		)
+		type: SixtyEightPublishers\PoiBundle\Attribute\EventSubscriber\WatchAttributeChangesSubscriber
+		arguments:
+			- @extension.attributes.stack_provider
