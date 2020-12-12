@@ -71,11 +71,16 @@ final class PoiBundleExtension extends CompilerExtension implements DatabaseType
 	 */
 	public function getDatabaseTypes(): array
 	{
-		return array_map(static function (string $name) {
-			return new DatabaseType($name, AttributesType::class, NULL, [
-				AttributesType::CONTEXT_KEY_NAME => $name,
-			]);
-		}, array_keys((array) $this->config->attributes));
+		return array_map(
+			static function (string $name) {
+				return new DatabaseType($name, AttributesType::class, NULL, [
+					AttributesType::CONTEXT_KEY_NAME => $name,
+				]);
+			},
+			array_keys(array_filter($this->config->attributes, static function (object $config) {
+				return $config->dbal_type;
+			}))
+		);
 	}
 
 	/**
