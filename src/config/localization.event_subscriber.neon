@@ -1,0 +1,6 @@
+services:
+	localization.event_subscriber.locale_aware_entities:
+		autowired: no
+		type: SixtyEightPublishers\PoiBundle\Localization\EventSubscriber\LocaleAwareEntitiesSubscriber
+		arguments:
+			- @extension.localization.mapping.locale_mapping_adapter

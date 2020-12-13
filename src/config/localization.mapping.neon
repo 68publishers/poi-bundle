@@ -1,0 +1,20 @@
+services:
+	localization.mapping.locale_mapping_adapter:
+		autowired: no
+		type: SixtyEightPublishers\PoiBundle\Localization\Mapping\LocaleMappingAdapterInterface
+		factory: @extension.localization.mapping.locale_mapping_adapter.cached
+
+	localization.mapping.locale_mapping_adapter.cached:
+		autowired: no
+		type: SixtyEightPublishers\PoiBundle\Localization\Mapping\LocaleMappingAdapterInterface
+		factory: SixtyEightPublishers\PoiBundle\Localization\Mapping\CachedLocaleMappingAdapter(
+			@extension.localization.mapping.locale_mapping_adapter.annotation
+			@Doctrine\ORM\EntityManagerInterface
+		)
+
+	localization.mapping.locale_mapping_adapter.annotation:
+		autowired: no
+		type: SixtyEightPublishers\PoiBundle\Localization\Mapping\LocaleMappingAdapterInterface
+		factory: SixtyEightPublishers\PoiBundle\Localization\Mapping\AnnotationLocaleMappingAdapter(
+			@Doctrine\Common\Annotations\Reader
+		)
