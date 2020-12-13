@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace SixtyEightPublishers\PoiBundle\Validator;
+namespace SixtyEightPublishers\PoiBundle\Attribute\Validator;
 
-use SixtyEightPublishers\PoiBundle\Exception\AttributeValueException;
+use SixtyEightPublishers\PoiBundle\Attribute\Exception\AttributeValueException;
 
 final class EnumValidator
 {
@@ -23,7 +23,7 @@ final class EnumValidator
 	 * @param mixed $value
 	 *
 	 * @return bool
-	 * @throws \SixtyEightPublishers\PoiBundle\Exception\AttributeValueException
+	 * @throws \SixtyEightPublishers\PoiBundle\Attribute\Exception\AttributeValueException
 	 */
 	public function __invoke($value): bool
 	{

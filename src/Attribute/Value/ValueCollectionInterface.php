@@ -16,7 +16,7 @@ interface ValueCollectionInterface extends IteratorAggregate
 	 * @param string $name
 	 *
 	 * @return mixed
-	 * @throws \SixtyEightPublishers\PoiBundle\Exception\AttributeValueException
+	 * @throws \SixtyEightPublishers\PoiBundle\Attribute\Exception\AttributeValueException
 	 */
 	public function getValue(string $name);
 
@@ -25,7 +25,7 @@ interface ValueCollectionInterface extends IteratorAggregate
 	 * @param mixed  $value
 	 *
 	 * @return void
-	 * @throws \SixtyEightPublishers\PoiBundle\Exception\AttributeValueException
+	 * @throws \SixtyEightPublishers\PoiBundle\Attribute\Exception\AttributeValueException
 	 */
 	public function setValue(string $name, $value): void;
 

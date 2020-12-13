@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace SixtyEightPublishers\PoiBundle\Validator;
+namespace SixtyEightPublishers\PoiBundle\Attribute\Validator;
 
 final class TypeValidator
 {

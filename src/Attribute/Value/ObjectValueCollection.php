@@ -23,7 +23,7 @@ class ObjectValueCollection implements ValueCollectionInterface
 	 * @param string $name
 	 * @param mixed  $value
 	 *
-	 * @throws \SixtyEightPublishers\PoiBundle\Exception\AttributeValueException
+	 * @throws \SixtyEightPublishers\PoiBundle\Attribute\Exception\AttributeValueException
 	 */
 	public function __set(string $name, $value): void
 	{
@@ -34,7 +34,7 @@ class ObjectValueCollection implements ValueCollectionInterface
 	 * @param string $name
 	 *
 	 * @return mixed
-	 * @throws \SixtyEightPublishers\PoiBundle\Exception\AttributeValueException
+	 * @throws \SixtyEightPublishers\PoiBundle\Attribute\Exception\AttributeValueException
 	 */
 	public function __get(string $name)
 	{

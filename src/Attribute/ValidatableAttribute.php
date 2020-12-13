@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace SixtyEightPublishers\PoiBundle\Attribute;
 
-use SixtyEightPublishers\PoiBundle\Exception\AttributeValueException;
 use SixtyEightPublishers\PoiBundle\Attribute\Value\ValueCollectionInterface;
+use SixtyEightPublishers\PoiBundle\Attribute\Exception\AttributeValueException;
 
 final class ValidatableAttribute extends AbstractAttributeDecorator
 {
@@ -55,7 +55,7 @@ final class ValidatableAttribute extends AbstractAttributeDecorator
 	 * @param mixed $value
 	 *
 	 * @return void
-	 * @throws \SixtyEightPublishers\PoiBundle\Exception\AttributeValueException
+	 * @throws \SixtyEightPublishers\PoiBundle\Attribute\Exception\AttributeValueException
 	 */
 	private function validate($value): void
 	{

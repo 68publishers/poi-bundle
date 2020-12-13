@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace SixtyEightPublishers\PoiBundle\DbalType\Attributes;
+namespace SixtyEightPublishers\PoiBundle\Attribute\DbalType\Attributes;
 
 use JsonException;
 use Nette\DI\Container;

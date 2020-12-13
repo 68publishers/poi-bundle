@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace SixtyEightPublishers\PoiBundle\Attribute\Value;
 
 use ArrayIterator;
-use SixtyEightPublishers\PoiBundle\Exception\AttributeValueException;
 use SixtyEightPublishers\PoiBundle\Exception\InvalidArgumentException;
+use SixtyEightPublishers\PoiBundle\Attribute\Exception\AttributeValueException;
 
 final class ArrayValueCollection implements ValueCollectionInterface
 {

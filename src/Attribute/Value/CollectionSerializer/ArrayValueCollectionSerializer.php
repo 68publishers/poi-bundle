@@ -44,7 +44,7 @@ final class ArrayValueCollectionSerializer implements CollectionSerializerInterf
 	/**
 	 * {@inheritDoc}
 	 *
-	 * @throws \SixtyEightPublishers\PoiBundle\Exception\AttributeValueException
+	 * @throws \SixtyEightPublishers\PoiBundle\Attribute\Exception\AttributeValueException
 	 */
 	public function deserialize(string $serialized): ValueCollectionInterface
 	{

@@ -22,7 +22,7 @@ interface AttributeInterface
 	 * @param \SixtyEightPublishers\PoiBundle\Attribute\Value\ValueCollectionInterface $valueCollection
 	 *
 	 * @return mixed
-	 * @throws \SixtyEightPublishers\PoiBundle\Exception\AttributeValueException
+	 * @throws \SixtyEightPublishers\PoiBundle\Attribute\Exception\AttributeValueException
 	 */
 	public function getValue(ValueCollectionInterface $valueCollection);
 
@@ -31,7 +31,7 @@ interface AttributeInterface
 	 * @param mixed                                                                    $value
 	 *
 	 * @return void
-	 * @throws \SixtyEightPublishers\PoiBundle\Exception\AttributeValueException
+	 * @throws \SixtyEightPublishers\PoiBundle\Attribute\Exception\AttributeValueException
 	 */
 	public function setValue(ValueCollectionInterface $valueCollection, $value): void;
 

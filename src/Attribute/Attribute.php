@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace SixtyEightPublishers\PoiBundle\Attribute;
 
-use SixtyEightPublishers\PoiBundle\Exception\AttributeValueException;
 use SixtyEightPublishers\PoiBundle\Attribute\Value\ValueCollectionInterface;
+use SixtyEightPublishers\PoiBundle\Attribute\Exception\AttributeValueException;
 
 final class Attribute implements AttributeInterface
 {

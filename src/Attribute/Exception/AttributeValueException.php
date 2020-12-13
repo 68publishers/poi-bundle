@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-namespace SixtyEightPublishers\PoiBundle\Exception;
+namespace SixtyEightPublishers\PoiBundle\Attribute\Exception;
+
+use SixtyEightPublishers\PoiBundle\Exception\ExceptionInterface;
 
 final class AttributeValueException extends \Exception implements ExceptionInterface
 {
@@ -12,7 +14,7 @@ final class AttributeValueException extends \Exception implements ExceptionInter
 	/**
 	 * @param string $name
 	 *
-	 * @return \SixtyEightPublishers\PoiBundle\Exception\AttributeValueException
+	 * @return \SixtyEightPublishers\PoiBundle\Attribute\Exception\AttributeValueException
 	 */
 	public static function missingValue(string $name): self
 	{
@@ -25,7 +27,7 @@ final class AttributeValueException extends \Exception implements ExceptionInter
 	/**
 	 * @param string $message
 	 *
-	 * @return \SixtyEightPublishers\PoiBundle\Exception\AttributeValueException
+	 * @return \SixtyEightPublishers\PoiBundle\Attribute\Exception\AttributeValueException
 	 */
 	public static function validationError(string $message): self
 	{
