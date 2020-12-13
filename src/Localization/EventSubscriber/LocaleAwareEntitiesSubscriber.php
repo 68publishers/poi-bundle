@@ -35,8 +35,8 @@ final class LocaleAwareEntitiesSubscriber implements EventSubscriber
 	public function getSubscribedEvents(): array
 	{
 		return [
-			Events::prePersist => 'setupLocale',
-			Events::postLoad => 'setupLocale',
+			Events::prePersist,
+			Events::postLoad,
 		];
 	}
 
@@ -47,7 +47,29 @@ final class LocaleAwareEntitiesSubscriber implements EventSubscriber
 	 *
 	 * @return void
 	 */
-	public function setupLocale(LifecycleEventArgs $args): void
+	public function prePersist(LifecycleEventArgs $args): void
+	{
+		$this->setupLocale($args);
+	}
+
+	/**
+	 * @internal
+	 *
+	 * @param \Doctrine\ORM\Event\LifecycleEventArgs $args
+	 *
+	 * @return void
+	 */
+	public function postLoad(LifecycleEventArgs $args): void
+	{
+		$this->setupLocale($args);
+	}
+
+	/**
+	 * @param \Doctrine\ORM\Event\LifecycleEventArgs $args
+	 *
+	 * @return void
+	 */
+	private function setupLocale(LifecycleEventArgs $args): void
 	{
 		$entity = $args->getEntity();
 		$metadata = $args->getEntityManager()->getClassMetadata(get_class($entity));

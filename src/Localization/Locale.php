@@ -35,7 +35,7 @@ final class Locale implements LocaleInterface
 	 */
 	public function getLocale(): string
 	{
-		return $this->locale || $this->translatorLocalizer->getLocale();
+		return $this->locale ?? $this->translatorLocalizer->getLocale();
 	}
 
 	/**
