@@ -11,6 +11,7 @@ use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Event\PreFlushEventArgs;
 use Doctrine\Persistence\Mapping\ClassMetadata;
+use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
 use SixtyEightPublishers\PoiBundle\Attribute\Stack\StackInterface;
 use SixtyEightPublishers\PoiBundle\Attribute\Stack\StackProviderInterface;
 use SixtyEightPublishers\PoiBundle\Attribute\Value\ValueCollectionInterface;
@@ -40,33 +41,53 @@ final class WatchAttributeChangesSubscriber implements EventSubscriber
 	public function getSubscribedEvents(): array
 	{
 		return [
-			Events::preFlush,
+			Events::loadClassMetadata,
 		];
 	}
 
 	/**
 	 * @internal
 	 *
+	 * @param \Doctrine\ORM\Event\LoadClassMetadataEventArgs $eventArgs
+	 *
+	 * @return void
+	 * @throws \Doctrine\ORM\Mapping\MappingException
+	 * @throws \ReflectionException
+	 */
+	public function loadClassMetadata(LoadClassMetadataEventArgs $eventArgs): void
+	{
+		$metadata = $eventArgs->getClassMetadata();
+		$cache = $eventArgs->getEntityManager()->getMetadataFactory()->getCacheDriver();
+
+		if ($metadata->isMappedSuperclass || !$metadata->getReflectionClass()->isInstantiable() || !count($this->getAttributeFieldMetadata($metadata, $cache))) {
+			return;
+		}
+
+		$metadata->addEntityListener(Events::preFlush, static::class, Events::preFlush);
+	}
+
+	/**
+	 * @internal
+	 *
+	 * @param object                                $entity
 	 * @param \Doctrine\ORM\Event\PreFlushEventArgs $args
 	 *
+	 * @return void
 	 * @throws \Doctrine\Persistence\Mapping\MappingException
 	 * @throws \ReflectionException
 	 */
-	public function preFlush(PreFlushEventArgs $args): void
+	public function preFlush(object $entity, PreFlushEventArgs $args): void
 	{
 		$em = $args->getEntityManager();
-		$uow = $em->getUnitOfWork();
 
 		/** @var \Doctrine\ORM\Mapping\ClassMetadataFactory $metadataFactory */
 		$metadataFactory = $em->getMetadataFactory();
 
-		foreach ($uow->getScheduledEntityUpdates() as $entity) {
-			$metadata = $metadataFactory->getMetadataFor(get_class($entity));
-			$fieldMetadata = $this->getAttributeFieldMetadata($metadata, $metadataFactory->getCacheDriver());
+		$metadata = $metadataFactory->getMetadataFor(get_class($entity));
+		$fieldMetadata = $this->getAttributeFieldMetadata($metadata, $metadataFactory->getCacheDriver());
 
-			if (!empty($fieldMetadata)) {
-				$this->updateAttributeFields($entity, $fieldMetadata, $em);
-			}
+		if (!empty($fieldMetadata)) {
+			$this->updateAttributeFields($entity, $fieldMetadata, $em);
 		}
 	}
 
@@ -79,17 +100,14 @@ final class WatchAttributeChangesSubscriber implements EventSubscriber
 	{
 		foreach ($fieldMetadata as $metadata) {
 			$classMetadata = $em->getClassMetadata($metadata['class']);
+			$value = $classMetadata->getFieldValue($entity, $metadata['field']);
 
-			foreach ($metadata['fields'] as $field) {
-				$value = $classMetadata->getFieldValue($entity, $field);
+			if (!$value instanceof ValueCollectionInterface) {
+				continue;
+			}
 
-				if (!$value instanceof ValueCollectionInterface) {
-					continue;
-				}
-
-				if (ValueCollectionInterface::STATE_UPDATED === $value->getState()) {
-					$classMetadata->setFieldValue($entity, $field, clone $value);
-				}
+			if (ValueCollectionInterface::STATE_UPDATED === $value->getState()) {
+				$classMetadata->setFieldValue($entity, $metadata['field'], clone $value);
 			}
 		}
 	}
@@ -125,7 +143,7 @@ final class WatchAttributeChangesSubscriber implements EventSubscriber
 
 			$fields[] = [
 				'class' => ($metadata->isInheritedField($fieldName) ? new ReflectionClass($mapping['declared']) : $metadata->getReflectionClass())->getName(),
-				'fields' => $fieldName,
+				'field' => $fieldName,
 			];
 		}
 
