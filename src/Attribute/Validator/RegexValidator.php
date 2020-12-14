@@ -27,7 +27,7 @@ final class RegexValidator
 	 */
 	public function __invoke($value): bool
 	{
-		if (FALSE === preg_match('#' . $this->regex . '#', $value)) {
+		if (FALSE === (bool) preg_match('#' . $this->regex . '#', $value)) {
 			throw AttributeValueException::validationError(sprintf(
 				'The value must be matched with regex %s',
 				$this->regex
