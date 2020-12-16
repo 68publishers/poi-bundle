@@ -38,7 +38,7 @@ abstract class AbstractAttributeDecorator implements AttributeInterface
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getValue(ValueCollectionInterface $valueCollection)
+	public function getValue(ValueCollectionInterface $valueCollection, array $context = [])
 	{
 		return $this->attribute->getValue($valueCollection);
 	}

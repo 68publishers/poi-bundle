@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SixtyEightPublishers\PoiBundle\Attribute\Value;
 
+use Traversable;
 use ArrayIterator;
 use SixtyEightPublishers\PoiBundle\Exception\InvalidArgumentException;
 use SixtyEightPublishers\PoiBundle\Attribute\Exception\AttributeValueException;
@@ -51,7 +52,7 @@ final class ArrayValueCollection implements ValueCollectionInterface
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getIterator(): ArrayIterator
+	public function getIterator(bool $raw = FALSE): Traversable
 	{
 		return new ArrayIterator($this->values);
 	}

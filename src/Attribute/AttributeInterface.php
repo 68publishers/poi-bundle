@@ -8,6 +8,8 @@ use SixtyEightPublishers\PoiBundle\Attribute\Value\ValueCollectionInterface;
 
 interface AttributeInterface
 {
+	public const GET_VALUE_CONTEXT_RAW = 'raw';
+
 	/**
 	 * @return string
 	 */
@@ -20,11 +22,12 @@ interface AttributeInterface
 
 	/**
 	 * @param \SixtyEightPublishers\PoiBundle\Attribute\Value\ValueCollectionInterface $valueCollection
+	 * @param array                                                                    $context
 	 *
 	 * @return mixed
 	 * @throws \SixtyEightPublishers\PoiBundle\Attribute\Exception\AttributeValueException
 	 */
-	public function getValue(ValueCollectionInterface $valueCollection);
+	public function getValue(ValueCollectionInterface $valueCollection, array $context = []);
 
 	/**
 	 * @param \SixtyEightPublishers\PoiBundle\Attribute\Value\ValueCollectionInterface $valueCollection

@@ -31,7 +31,7 @@ final class ValidatableAttribute extends AbstractAttributeDecorator
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getValue(ValueCollectionInterface $valueCollection)
+	public function getValue(ValueCollectionInterface $valueCollection, array $context = [])
 	{
 		$value = parent::getValue($valueCollection);
 

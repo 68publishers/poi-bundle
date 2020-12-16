@@ -52,7 +52,7 @@ final class Attribute implements AttributeInterface
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getValue(ValueCollectionInterface $valueCollection)
+	public function getValue(ValueCollectionInterface $valueCollection, array $context = [])
 	{
 		try {
 			return $valueCollection->getValue($this->getName());

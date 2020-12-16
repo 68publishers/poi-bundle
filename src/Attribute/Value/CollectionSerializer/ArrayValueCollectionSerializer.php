@@ -28,7 +28,7 @@ final class ArrayValueCollectionSerializer implements CollectionSerializerInterf
 	{
 		$values = [];
 
-		foreach ($valueCollection as $name => $value) {
+		foreach ($valueCollection->getIterator(TRUE) as $name => $value) {
 			if (isset($this->valueSerializers[$name])) {
 				$value = $this->valueSerializers[$name]->serialize($value);
 			}

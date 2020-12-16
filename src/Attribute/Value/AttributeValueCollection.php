@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace SixtyEightPublishers\PoiBundle\Attribute\Value;
 
+use Traversable;
 use ArrayIterator;
+use SixtyEightPublishers\PoiBundle\Attribute\AttributeInterface;
 use SixtyEightPublishers\PoiBundle\Attribute\Collection\AttributeCollectionInterface;
 
 final class AttributeValueCollection implements ValueCollectionInterface
@@ -43,13 +45,17 @@ final class AttributeValueCollection implements ValueCollectionInterface
 
 	/**
 	 * {@inheritDoc}
+	 *
+	 * @throws \SixtyEightPublishers\PoiBundle\Attribute\Exception\AttributeValueException
 	 */
-	public function getIterator(): ArrayIterator
+	public function getIterator(bool $raw = FALSE): Traversable
 	{
 		$array = [];
 		/** @var \SixtyEightPublishers\PoiBundle\Attribute\AttributeInterface $attribute */
 		foreach ($this->attributeCollection as $attribute) {
-			$array[$attribute->getName()] = $attribute->getValue($this->valueCollection);
+			$array[$attribute->getName()] = $attribute->getValue($this->valueCollection, [
+				AttributeInterface::GET_VALUE_CONTEXT_RAW => $raw,
+			]);
 		}
 
 		return new ArrayIterator($array);

@@ -28,8 +28,12 @@ final class ModifiableAttribute extends AbstractAttributeDecorator
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getValue(ValueCollectionInterface $valueCollection)
+	public function getValue(ValueCollectionInterface $valueCollection, array $context = [])
 	{
+		if (TRUE === ($context[self::GET_VALUE_CONTEXT_RAW] ?? FALSE)) {
+			return parent::getValue($valueCollection);
+		}
+
 		return $this->modify(parent::getValue($valueCollection), self::MODIFIER_GET_VALUE);
 	}
 

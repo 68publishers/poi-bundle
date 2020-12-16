@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SixtyEightPublishers\PoiBundle\Attribute\Value;
 
+use Traversable;
 use IteratorAggregate;
 
 interface ValueCollectionInterface extends IteratorAggregate
@@ -38,4 +39,12 @@ interface ValueCollectionInterface extends IteratorAggregate
 	 * @param int $state
 	 */
 	public function changeState(int $state): void;
+
+
+	/**
+	 * @param bool $raw
+	 *
+	 * @return \Traversable
+	 */
+	public function getIterator(bool $raw = FALSE): Traversable;
 }

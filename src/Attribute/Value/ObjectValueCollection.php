@@ -54,9 +54,9 @@ class ObjectValueCollection implements ValueCollectionInterface
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getIterator(): Traversable
+	public function getIterator(bool $raw = FALSE): Traversable
 	{
-		return $this->inner->getIterator();
+		return $this->inner->getIterator($raw);
 	}
 
 	/**
