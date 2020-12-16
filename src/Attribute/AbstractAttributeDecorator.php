@@ -40,7 +40,7 @@ abstract class AbstractAttributeDecorator implements AttributeInterface
 	 */
 	public function getValue(ValueCollectionInterface $valueCollection, array $context = [])
 	{
-		return $this->attribute->getValue($valueCollection);
+		return $this->attribute->getValue($valueCollection, $context);
 	}
 
 	/**
