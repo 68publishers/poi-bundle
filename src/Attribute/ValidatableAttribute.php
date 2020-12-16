@@ -33,7 +33,7 @@ final class ValidatableAttribute extends AbstractAttributeDecorator
 	 */
 	public function getValue(ValueCollectionInterface $valueCollection, array $context = [])
 	{
-		$value = parent::getValue($valueCollection);
+		$value = parent::getValue($valueCollection, $context);
 
 		if ($this->validateOnGet) {
 			$this->validate($value);
