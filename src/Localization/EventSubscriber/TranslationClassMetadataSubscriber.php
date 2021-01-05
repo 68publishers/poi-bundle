@@ -48,7 +48,7 @@ final class TranslationClassMetadataSubscriber implements EventSubscriber
 			implode('_', $uniqueColumns)
 		));
 
-		$metadata->table['indexes']['IDX' . $indexPostfix] = $metadata->table['uniqueConstraints']['UNIQ' . $indexPostfix] = [
+		$metadata->table['uniqueConstraints']['UNIQ' . $indexPostfix] = [
 			'columns' => $uniqueColumns,
 		];
 	}
