@@ -13,8 +13,6 @@ abstract class AbstractTranslation implements TranslationInterface
 {
 	/**
 	 * Map the ID field in an inheritor
-	 *
-	 * @ORM\Id
 	 */
 	protected $id;
 
