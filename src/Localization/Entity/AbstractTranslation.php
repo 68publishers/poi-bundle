@@ -12,8 +12,9 @@ use Doctrine\ORM\Mapping as ORM;
 abstract class AbstractTranslation implements TranslationInterface
 {
 	/**
+	 * Map the ID field in an inheritor
+	 *
 	 * @ORM\Id
-	 * @ORM\Column(type="integer")
 	 */
 	protected $id;
 
