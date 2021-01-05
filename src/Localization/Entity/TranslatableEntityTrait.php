@@ -4,9 +4,14 @@ declare(strict_types=1);
 
 namespace SixtyEightPublishers\PoiBundle\Localization\Entity;
 
+use SixtyEightPublishers\PoiBundle\Localization\Annotation;
+use SixtyEightPublishers\PoiBundle\Exception\RuntimeException;
+use SixtyEightPublishers\PoiBundle\Localization\LocaleInterface;
+
 trait TranslatableEntityTrait
 {
-	use LocalePropertyTrait;
+	// Can't use nested import because of this issue: https://github.com/doctrine/annotations/issues/268
+	//use LocalePropertyTrait;
 
 	/**
 	 * Map this field to the related collection in en entity
@@ -14,6 +19,13 @@ trait TranslatableEntityTrait
 	 * @var \Doctrine\Common\Collections\Collection|\SixtyEightPublishers\PoiBundle\Localization\Entity\AbstractTranslation[]
 	 */
 	protected $translations;
+
+	/**
+	 * @Annotation\Locale()
+	 *
+	 * @var \SixtyEightPublishers\PoiBundle\Localization\LocaleInterface|NULL
+	 */
+	private $localeObject;
 
 	/**
 	 * @param \SixtyEightPublishers\PoiBundle\Localization\Entity\TranslationInterface $translation
@@ -72,5 +84,17 @@ trait TranslatableEntityTrait
 		}
 
 		return '';
+	}
+
+	/**
+	 * @return \SixtyEightPublishers\PoiBundle\Localization\LocaleInterface
+	 */
+	protected function getLocaleObject(): LocaleInterface
+	{
+		if (NULL === $this->localeObject) {
+			throw new RuntimeException('Locale object is not set.');
+		}
+
+		return $this->localeObject;
 	}
 }
