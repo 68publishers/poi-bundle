@@ -4,3 +4,6 @@ services:
 		type: SixtyEightPublishers\PoiBundle\Localization\EventSubscriber\LocaleAwareEntitiesSubscriber
 		arguments:
 			- @extension.localization.mapping.locale_mapping_adapter
+	localization.event_subscriber.translation_class_metadata:
+		autowired: no
+		type: SixtyEightPublishers\PoiBundle\Localization\EventSubscriber\TranslationClassMetadataSubscriber
