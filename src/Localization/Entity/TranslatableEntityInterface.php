@@ -13,5 +13,5 @@ interface TranslatableEntityInterface
 	 *
 	 * @return string
 	 */
-	public function getTranslation(string $field, ?string $locale = NULL, bool $useFallback = TRUE): string;
+	public function translate(string $field, ?string $locale = NULL, bool $useFallback = TRUE): string;
 }

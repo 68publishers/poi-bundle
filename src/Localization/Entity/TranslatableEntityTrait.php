@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SixtyEightPublishers\PoiBundle\Localization\Entity;
 
+use Doctrine\Common\Collections\Collection;
 use SixtyEightPublishers\PoiBundle\Localization\Annotation;
 use SixtyEightPublishers\PoiBundle\Exception\RuntimeException;
 use SixtyEightPublishers\PoiBundle\Localization\LocaleInterface;
@@ -16,7 +17,7 @@ trait TranslatableEntityTrait
 	/**
 	 * Map this field to the related collection in en entity
 	 *
-	 * @var \Doctrine\Common\Collections\Collection|\SixtyEightPublishers\PoiBundle\Localization\Entity\AbstractTranslation[]
+	 * @var \Doctrine\Common\Collections\Collection|\SixtyEightPublishers\PoiBundle\Localization\Entity\TranslationInterface[]
 	 */
 	protected $translations;
 
@@ -40,12 +41,20 @@ trait TranslatableEntityTrait
 	}
 
 	/**
+	 * @return \Doctrine\Common\Collections\Collection|\SixtyEightPublishers\PoiBundle\Localization\Entity\TranslationInterface[]
+	 */
+	public function getTranslations(): Collection
+	{
+		return $this->translations;
+	}
+
+	/**
 	 * @param string $locale
 	 * @param string $field
 	 *
-	 * @return \SixtyEightPublishers\PoiBundle\Localization\Entity\TranslationInterface|null
+	 * @return \SixtyEightPublishers\PoiBundle\Localization\Entity\TranslationInterface|NULL
 	 */
-	public function getTranslationEntity(string $locale, string $field): ?TranslationInterface
+	public function getTranslation(string $locale, string $field): ?TranslationInterface
 	{
 		foreach ($this->translations as $translation) {
 			if ($locale === $translation->getLocale() && $field === $translation->getField()) {
@@ -63,9 +72,9 @@ trait TranslatableEntityTrait
 	 *
 	 * @return string
 	 */
-	public function getTranslation(string $field, ?string $locale = NULL, bool $useFallback = TRUE): string
+	public function translate(string $field, ?string $locale = NULL, bool $useFallback = TRUE): string
 	{
-		$entity = $this->getTranslationEntity($locale ?? $this->getLocaleObject()->getLocale(), $field);
+		$entity = $this->getTranslation($locale ?? $this->getLocaleObject()->getLocale(), $field);
 
 		if (NULL !== $entity) {
 			return $entity->getContent();
@@ -76,7 +85,7 @@ trait TranslatableEntityTrait
 		}
 
 		foreach ($this->getLocaleObject()->getFallbackLocales() as $fallbackLocale) {
-			$translation = $this->getTranslation($field, $fallbackLocale, FALSE);
+			$translation = $this->translate($field, $fallbackLocale, FALSE);
 
 			if (!empty($translation)) {
 				return $translation;
