@@ -29,18 +29,6 @@ trait TranslatableEntityTrait
 	private $localeObject;
 
 	/**
-	 * @param \SixtyEightPublishers\PoiBundle\Localization\Entity\TranslationInterface $translation
-	 *
-	 * @return void
-	 */
-	public function addTranslation(TranslationInterface $translation): void
-	{
-		if (!$this->translations->contains($translation)) {
-			$this->translations->add($translation);
-		}
-	}
-
-	/**
 	 * @return \Doctrine\Common\Collections\Collection|\SixtyEightPublishers\PoiBundle\Localization\Entity\TranslationInterface[]
 	 */
 	public function getTranslations(): Collection

@@ -40,22 +40,26 @@ abstract class AbstractTranslation implements TranslationInterface
 	/**
 	 * Map this field to the related object in an inheritor
 	 *
-	 * @var object
+	 * @var \SixtyEightPublishers\PoiBundle\Localization\Entity\TranslatableEntityInterface
 	 */
 	protected $object;
 
 	/**
-	 * @param object $object
-	 * @param string $locale
-	 * @param string $filed
-	 * @param string $content
+	 * @param \SixtyEightPublishers\PoiBundle\Localization\Entity\TranslatableEntityInterface $object
+	 * @param string                                                                          $locale
+	 * @param string                                                                          $filed
+	 * @param string                                                                          $content
 	 */
-	public function __construct(object $object, string $locale, string $filed, string $content)
+	public function __construct(TranslatableEntityInterface $object, string $locale, string $filed, string $content)
 	{
 		$this->object = $object;
 		$this->locale = $locale;
 		$this->field = $filed;
 		$this->content = $content;
+
+		if (!$object->getTranslations()->contains($this)) {
+			$object->getTranslations()->add($this);
+		}
 	}
 
 	/**
@@ -101,7 +105,7 @@ abstract class AbstractTranslation implements TranslationInterface
 	}
 
 	/**
-	 * @return object
+	 * @return \SixtyEightPublishers\PoiBundle\Localization\Entity\TranslatableEntityInterface|object
 	 */
 	public function getObject()
 	{
