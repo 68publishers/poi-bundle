@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SixtyEightPublishers\PoiBundle\Localization\Entity;
 
+use SixtyEightPublishers\PoiBundle\Localization\Annotation;
 use SixtyEightPublishers\PoiBundle\Exception\RuntimeException;
 use SixtyEightPublishers\PoiBundle\Localization\LocaleInterface;
 
@@ -14,17 +15,17 @@ trait LocalePropertyTrait
 	 *
 	 * @var \SixtyEightPublishers\PoiBundle\Localization\LocaleInterface|NULL
 	 */
-	private $locale;
+	private $localeObject;
 
 	/**
 	 * @return \SixtyEightPublishers\PoiBundle\Localization\LocaleInterface
 	 */
-	protected function getLocale(): LocaleInterface
+	protected function getLocaleObject(): LocaleInterface
 	{
-		if (NULL === $this->locale) {
+		if (NULL === $this->localeObject) {
 			throw new RuntimeException('Locale object is not set.');
 		}
 
-		return $this->locale;
+		return $this->localeObject;
 	}
 }
