@@ -14,7 +14,6 @@ abstract class AbstractTranslation implements TranslationInterface
 	/**
 	 * @ORM\Id
 	 * @ORM\Column(type="integer")
-	 * @ORM\GeneratedValue(strategy="IDENTITY")
 	 */
 	protected $id;
 
