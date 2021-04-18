@@ -38,7 +38,7 @@ final class ArrayValidator
 
 		$valueCallback = $this->valueValidator;
 		$keyValidator = $this->keyValidator ?? static function () {
-			return NULL;
+			return TRUE;
 		};
 
 		foreach ($value as $k => $v) {
