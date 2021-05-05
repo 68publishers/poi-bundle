@@ -42,7 +42,7 @@ final class ArrayValueCollection implements ValueCollectionInterface
 	 */
 	public function setValue(string $name, $value): void
 	{
-		if (self::STATE_MANAGED === $this->state && array_key_exists($name, $this->values) && $this->values[$name] !== $value) {
+		if (self::STATE_MANAGED === $this->state && (!array_key_exists($name, $this->values) || $this->values[$name] !== $value)) {
 			$this->state = self::STATE_UPDATED;
 		}
 
