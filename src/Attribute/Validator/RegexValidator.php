@@ -6,10 +6,9 @@ namespace SixtyEightPublishers\PoiBundle\Attribute\Validator;
 
 use SixtyEightPublishers\PoiBundle\Attribute\Exception\AttributeValueException;
 
-final class RegexValidator
+class RegexValidator extends AbstractValidator
 {
-	/** @var string  */
-	private $regex;
+	private string $regex;
 
 	/**
 	 * @param string $regex
@@ -20,12 +19,17 @@ final class RegexValidator
 	}
 
 	/**
-	 * @param mixed $value
-	 *
-	 * @return bool
-	 * @throws \SixtyEightPublishers\PoiBundle\Attribute\Exception\AttributeValueException
+	 * @return string
 	 */
-	public function __invoke($value): bool
+	public function getRegex(): string
+	{
+		return $this->regex;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function validate($value): void
 	{
 		if (FALSE === (bool) preg_match('#' . $this->regex . '#', $value)) {
 			throw AttributeValueException::validationError(sprintf(
@@ -33,7 +37,5 @@ final class RegexValidator
 				$this->regex
 			));
 		}
-
-		return TRUE;
 	}
 }

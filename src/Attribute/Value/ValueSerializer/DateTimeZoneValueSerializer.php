@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace SixtyEightPublishers\PoiBundle\Attribute\Value\ValueSerializer;
 
-use DateTime;
+use DateTimeZone;
 
-final class DateTimeValueSerializer implements ValueSerializerInterface
+final class DateTimeZoneValueSerializer implements ValueSerializerInterface
 {
 	/**
 	 * {@inheritDoc}
@@ -17,20 +17,18 @@ final class DateTimeValueSerializer implements ValueSerializerInterface
 			return NULL;
 		}
 
-		assert($value instanceof DateTime);
+		assert($value instanceof DateTimeZone);
 
-		return $value->format(DateTime::ATOM);
+		return $value->getName();
 	}
 
 	/**
 	 * {@inheritDoc}
-	 *
-	 * @throws \Exception
 	 */
-	public function deserialize($value): ?DateTime
+	public function deserialize($value): ?DateTimeZone
 	{
 		if (NULL !== $value) {
-			$value = new DateTime($value);
+			$value = new DateTimeZone($value);
 		}
 
 		return $value;

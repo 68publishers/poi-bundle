@@ -11,11 +11,9 @@ use SixtyEightPublishers\PoiBundle\Attribute\Exception\AttributeValueException;
 
 final class ArrayValueCollection implements ValueCollectionInterface
 {
-	/** @var array  */
-	private $values;
+	private array $values;
 
-	/** @var int  */
-	private $state = self::STATE_NEW;
+	private int $state = self::STATE_NEW;
 
 	/**
 	 * @param array $values

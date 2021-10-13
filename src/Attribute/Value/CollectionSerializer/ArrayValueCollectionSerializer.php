@@ -11,7 +11,7 @@ use SixtyEightPublishers\PoiBundle\Attribute\Value\ValueSerializer\ValueSerializ
 final class ArrayValueCollectionSerializer implements CollectionSerializerInterface
 {
 	/** @var \SixtyEightPublishers\PoiBundle\Attribute\Value\ValueSerializer\ValueSerializerInterface[] */
-	private $valueSerializers = [];
+	private array $valueSerializers = [];
 
 	/**
 	 * {@inheritDoc}

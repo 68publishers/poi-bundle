@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace SixtyEightPublishers\PoiBundle\Attribute;
 
+use SixtyEightPublishers\PoiBundle\Attribute\Type\TypeInterface;
 use SixtyEightPublishers\PoiBundle\Attribute\Value\ValueCollectionInterface;
 
 abstract class AbstractAttributeDecorator implements AttributeInterface
 {
-	/** @var \SixtyEightPublishers\PoiBundle\Attribute\AttributeInterface  */
-	protected $attribute;
+	protected AttributeInterface $attribute;
 
 	/**
 	 * @param \SixtyEightPublishers\PoiBundle\Attribute\AttributeInterface $attribute
@@ -30,9 +30,9 @@ abstract class AbstractAttributeDecorator implements AttributeInterface
 	/**
 	 * {@inheritDoc}
 	 */
-	public function isNullable(): bool
+	public function getType(): TypeInterface
 	{
-		return $this->attribute->isNullable();
+		return $this->attribute->getType();
 	}
 
 	/**

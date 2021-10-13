@@ -8,11 +8,9 @@ use SixtyEightPublishers\TranslationBridge\Localization\TranslatorLocalizerInter
 
 final class Locale implements LocaleInterface
 {
-	/** @var \SixtyEightPublishers\TranslationBridge\Localization\TranslatorLocalizerInterface  */
-	private $translatorLocalizer;
+	private TranslatorLocalizerInterface $translatorLocalizer;
 
-	/** @var string|NULL */
-	private $locale;
+	private ?string $locale = NULL;
 
 	/**
 	 * @param \SixtyEightPublishers\TranslationBridge\Localization\TranslatorLocalizerInterface $translatorLocalizer

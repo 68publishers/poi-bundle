@@ -10,8 +10,7 @@ use SixtyEightPublishers\PoiBundle\Localization\Annotation\Locale as LocaleAnnot
 
 final class AnnotationLocaleMappingAdapter implements LocaleMappingAdapterInterface
 {
-	/** @var \Doctrine\Common\Annotations\Reader  */
-	private $reader;
+	private Reader $reader;
 
 	/**
 	 * @param \Doctrine\Common\Annotations\Reader $reader

@@ -9,11 +9,9 @@ use SixtyEightPublishers\PoiBundle\Attribute\AttributeInterface;
 
 final class LazyAttributeCollection implements AttributeCollectionInterface
 {
-	/** @var \SixtyEightPublishers\PoiBundle\Attribute\Collection\AttributeCollectionFactoryInterface|NULL  */
-	private $attributeCollectionFactory;
+	private ?AttributeCollectionFactoryInterface $attributeCollectionFactory;
 
-	/** @var \SixtyEightPublishers\PoiBundle\Attribute\Collection\AttributeCollectionInterface|NULL */
-	private $innerCollection;
+	private ?AttributeCollectionInterface $innerCollection = NULL;
 
 	/**
 	 * @param \SixtyEightPublishers\PoiBundle\Attribute\Collection\AttributeCollectionFactoryInterface $attributeCollectionFactory

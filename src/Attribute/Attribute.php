@@ -4,32 +4,30 @@ declare(strict_types=1);
 
 namespace SixtyEightPublishers\PoiBundle\Attribute;
 
+use SixtyEightPublishers\PoiBundle\Attribute\Type\TypeInterface;
 use SixtyEightPublishers\PoiBundle\Attribute\Value\ValueCollectionInterface;
 use SixtyEightPublishers\PoiBundle\Attribute\Exception\AttributeValueException;
 
 final class Attribute implements AttributeInterface
 {
-	/** @var string  */
-	private $name;
+	private string $name;
 
-	/** @var bool  */
-	private $nullable;
+	private TypeInterface $type;
 
 	/** @var mixed|NULL */
 	private $defaultValue;
 
-	/** @var array  */
-	private $extra = [];
+	private array $extra = [];
 
 	/**
-	 * @param string     $name
-	 * @param bool       $nullable
+	 * @param string $name
+	 * @param \SixtyEightPublishers\PoiBundle\Attribute\Type\TypeInterface $type
 	 * @param mixed|NULL $defaultValue
 	 */
-	public function __construct(string $name, bool $nullable = FALSE, $defaultValue = NULL)
+	public function __construct(string $name, TypeInterface $type, $defaultValue = NULL)
 	{
 		$this->name = $name;
-		$this->nullable = $nullable;
+		$this->type = $type;
 		$this->defaultValue = $defaultValue;
 	}
 
@@ -42,11 +40,11 @@ final class Attribute implements AttributeInterface
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * @return \SixtyEightPublishers\PoiBundle\Attribute\Type\TypeInterface
 	 */
-	public function isNullable(): bool
+	public function getType(): TypeInterface
 	{
-		return $this->nullable;
+		return $this->type;
 	}
 
 	/**
@@ -62,7 +60,7 @@ final class Attribute implements AttributeInterface
 					return $this->defaultValue;
 				}
 
-				if ($this->isNullable()) {
+				if ($this->getType()->isNullable()) {
 					return NULL;
 				}
 			}
@@ -76,6 +74,7 @@ final class Attribute implements AttributeInterface
 	 */
 	public function setValue(ValueCollectionInterface $valueCollection, $value): void
 	{
+		$this->type->validate($value);
 		$valueCollection->setValue($this->getName(), $value);
 	}
 

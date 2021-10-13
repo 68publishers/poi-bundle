@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SixtyEightPublishers\PoiBundle\Attribute;
 
+use SixtyEightPublishers\PoiBundle\Attribute\Type\TypeInterface;
 use SixtyEightPublishers\PoiBundle\Attribute\Value\ValueCollectionInterface;
 
 interface AttributeInterface
@@ -16,9 +17,9 @@ interface AttributeInterface
 	public function getName(): string;
 
 	/**
-	 * @return bool
+	 * @return \SixtyEightPublishers\PoiBundle\Attribute\Type\TypeInterface
 	 */
-	public function isNullable(): bool;
+	public function getType(): TypeInterface;
 
 	/**
 	 * @param \SixtyEightPublishers\PoiBundle\Attribute\Value\ValueCollectionInterface $valueCollection

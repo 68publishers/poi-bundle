@@ -8,8 +8,7 @@ use SixtyEightPublishers\PoiBundle\Attribute\Builder\AttributeBuilderFactoryInte
 
 final class AttributeCollectionBuilderFactory implements AttributeCollectionBuilderFactoryInterface
 {
-	/** @var \SixtyEightPublishers\PoiBundle\Attribute\Builder\AttributeBuilderFactoryInterface  */
-	private $attributeBuilderFactory;
+	private AttributeBuilderFactoryInterface $attributeBuilderFactory;
 
 	/**
 	 * @param \SixtyEightPublishers\PoiBundle\Attribute\Builder\AttributeBuilderFactoryInterface $attributeBuilderFactory

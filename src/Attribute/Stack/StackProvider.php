@@ -10,7 +10,7 @@ use SixtyEightPublishers\PoiBundle\Exception\InvalidArgumentException;
 final class StackProvider implements StackProviderInterface
 {
 	/** @var \SixtyEightPublishers\PoiBundle\Attribute\Stack\StackInterface[] */
-	private $stacks;
+	private array $stacks;
 
 	/**
 	 * @param \SixtyEightPublishers\PoiBundle\Attribute\Stack\StackInterface[] $stacks

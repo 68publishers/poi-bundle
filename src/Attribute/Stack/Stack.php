@@ -9,17 +9,13 @@ use SixtyEightPublishers\PoiBundle\Attribute\Value\CollectionSerializer\Collecti
 
 final class Stack implements StackInterface
 {
-	/** @var string  */
-	private $name;
+	private string $name;
 
-	/** @var \SixtyEightPublishers\PoiBundle\Attribute\Collection\AttributeCollectionInterface  */
-	private $attributeCollection;
+	private AttributeCollectionInterface $attributeCollection;
 
-	/** @var string|NULL  */
-	private $valueCollectionClassName;
+	private ?string $valueCollectionClassName;
 
-	/** @var \SixtyEightPublishers\PoiBundle\Attribute\Value\CollectionSerializer\CollectionSerializerInterface|NULL  */
-	private $collectionSerializer;
+	private ?CollectionSerializerInterface $collectionSerializer;
 
 	/**
 	 * @param string                                                                                                  $name

@@ -19,14 +19,14 @@ trait TranslatableEntityTrait
 	 *
 	 * @var \Doctrine\Common\Collections\Collection|\SixtyEightPublishers\PoiBundle\Localization\Entity\TranslationInterface[]
 	 */
-	protected $translations;
+	protected Collection $translations;
 
 	/**
 	 * @Annotation\Locale()
 	 *
 	 * @var \SixtyEightPublishers\PoiBundle\Localization\LocaleInterface|NULL
 	 */
-	private $localeObject;
+	private ?LocaleInterface $localeObject = NULL;
 
 	/**
 	 * @return \Doctrine\Common\Collections\Collection|\SixtyEightPublishers\PoiBundle\Localization\Entity\TranslationInterface[]

@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace SixtyEightPublishers\PoiBundle\Attribute\Builder;
 
 use SixtyEightPublishers\PoiBundle\Attribute\AttributeInterface;
+use SixtyEightPublishers\PoiBundle\Attribute\Type\TypeInterface;
+use SixtyEightPublishers\PoiBundle\Attribute\Validator\ValidatorInterface;
 use SixtyEightPublishers\PoiBundle\Attribute\Value\ValueSerializer\ValueSerializerInterface;
 
 interface AttributeBuilderInterface
@@ -17,11 +19,11 @@ interface AttributeBuilderInterface
 	public function setName(string $name): self;
 
 	/**
-	 * @param bool $nullable
+	 * @param \SixtyEightPublishers\PoiBundle\Attribute\Type\TypeInterface $type
 	 *
 	 * @return \SixtyEightPublishers\PoiBundle\Attribute\Builder\AttributeBuilderInterface
 	 */
-	public function setNullable(bool $nullable = TRUE): self;
+	public function setType(TypeInterface $type): self;
 
 	/**
 	 * @param mixed $defaultValue
@@ -45,12 +47,12 @@ interface AttributeBuilderInterface
 	public function modifiable(array $modifiers): self;
 
 	/**
-	 * @param callable $validator
-	 * @param bool     $validateOnGet
+	 * @param \SixtyEightPublishers\PoiBundle\Attribute\Validator\ValidatorInterface $validator
+	 * @param bool                                                                   $validateOnGet
 	 *
 	 * @return \SixtyEightPublishers\PoiBundle\Attribute\Builder\AttributeBuilderInterface
 	 */
-	public function validatable(callable $validator, bool $validateOnGet = FALSE): self;
+	public function validatable(ValidatorInterface $validator, bool $validateOnGet = FALSE): self;
 
 	/**
 	 * @param \SixtyEightPublishers\PoiBundle\Attribute\Value\ValueSerializer\ValueSerializerInterface $serializer

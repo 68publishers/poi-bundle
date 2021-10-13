@@ -8,8 +8,7 @@ use SixtyEightPublishers\PoiBundle\Attribute\Value\ValueSerializer\ValueSerializ
 
 final class SerializableAttribute extends AbstractAttributeDecorator implements ValueSerializerInterface
 {
-	/** @var \SixtyEightPublishers\PoiBundle\Attribute\Value\ValueSerializer\ValueSerializerInterface  */
-	private $serializer;
+	private ValueSerializerInterface $serializer;
 
 	/**
 	 * @param \SixtyEightPublishers\PoiBundle\Attribute\AttributeInterface                             $attribute

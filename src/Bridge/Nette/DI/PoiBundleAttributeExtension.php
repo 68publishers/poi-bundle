@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace SixtyEightPublishers\PoiBundle\DI;
+namespace SixtyEightPublishers\PoiBundle\Bridge\Nette\DI;
 
 use Nette\Utils\Finder;
 use Nette\Schema\Expect;
@@ -10,12 +10,10 @@ use Nette\Schema\Schema;
 use Nette\DI\CompilerExtension;
 use Nette\DI\Definitions\Statement;
 use SixtyEightPublishers\DoctrineBridge\DI\DatabaseType;
-use SixtyEightPublishers\DoctrineBridge\DI\EntityMapping;
 use SixtyEightPublishers\PoiBundle\Attribute\Stack\Stack;
 use SixtyEightPublishers\PoiBundle\Attribute\Stack\StackInterface;
 use SixtyEightPublishers\DoctrineBridge\DI\DatabaseTypeProviderInterface;
 use SixtyEightPublishers\PoiBundle\Attribute\Value\ObjectValueCollection;
-use SixtyEightPublishers\DoctrineBridge\DI\EntityMappingProviderInterface;
 use SixtyEightPublishers\PoiBundle\Attribute\Collection\LazyAttributeCollection;
 use SixtyEightPublishers\PoiBundle\Attribute\DbalType\Attributes\AttributesType;
 use SixtyEightPublishers\PoiBundle\Attribute\Collection\AttributeCollectionInterface;
@@ -25,7 +23,7 @@ use SixtyEightPublishers\PoiBundle\Attribute\Value\CollectionSerializer\ArrayVal
 use SixtyEightPublishers\PoiBundle\Attribute\Value\CollectionSerializer\ObjectValueCollectionSerializer;
 use SixtyEightPublishers\PoiBundle\Attribute\Value\CollectionSerializer\AttributeValueCollectionSerializer;
 
-final class PoiBundleExtension extends CompilerExtension implements DatabaseTypeProviderInterface, EntityMappingProviderInterface
+final class PoiBundleAttributeExtension extends CompilerExtension implements DatabaseTypeProviderInterface
 {
 	/**
 	 * {@inheritDoc}
@@ -50,7 +48,7 @@ final class PoiBundleExtension extends CompilerExtension implements DatabaseType
 	 */
 	public function loadConfiguration(): void
 	{
-		foreach (array_keys(iterator_to_array(Finder::findFiles('*.neon')->from(__DIR__ . '/../config'))) as $filename) {
+		foreach (array_keys(iterator_to_array(Finder::findFiles('*.neon')->from(__DIR__ . '/config/attributes'))) as $filename) {
 			$this->loadDefinitionsFromConfig(
 				$this->loadFromFile($filename)['services']
 			);
@@ -83,16 +81,6 @@ final class PoiBundleExtension extends CompilerExtension implements DatabaseType
 				return $config->dbal_type;
 			}))
 		);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getEntityMappings(): array
-	{
-		return [
-			new EntityMapping(EntityMapping::DRIVER_ANNOTATIONS, 'SixtyEightPublishers\PoiBundle\Localization\Entity', __DIR__ . '/../Localization/Entity'),
-		];
 	}
 
 	/**

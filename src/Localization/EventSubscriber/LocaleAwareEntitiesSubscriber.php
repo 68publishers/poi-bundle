@@ -13,11 +13,9 @@ use SixtyEightPublishers\PoiBundle\Localization\Mapping\LocaleMappingAdapterInte
 
 final class LocaleAwareEntitiesSubscriber implements EventSubscriber
 {
-	/** @var \SixtyEightPublishers\PoiBundle\Localization\Mapping\LocaleMappingAdapterInterface  */
-	private $localeMappingAdapter;
+	private LocaleMappingAdapterInterface $localeMappingAdapter;
 
-	/** @var \SixtyEightPublishers\TranslationBridge\Localization\TranslatorLocalizerInterface  */
-	private $translatorLocalizer;
+	private TranslatorLocalizerInterface $translatorLocalizer;
 
 	/**
 	 * @param \SixtyEightPublishers\PoiBundle\Localization\Mapping\LocaleMappingAdapterInterface $localeMappingAdapter

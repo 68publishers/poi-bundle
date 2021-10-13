@@ -12,11 +12,9 @@ use SixtyEightPublishers\PoiBundle\Attribute\Value\ValueSerializer\ValueSerializ
 
 final class AttributeValueCollectionSerializer implements CollectionSerializerInterface
 {
-	/** @var \SixtyEightPublishers\PoiBundle\Attribute\Value\CollectionSerializer\CollectionSerializerInterface  */
-	private $serializer;
+	private CollectionSerializerInterface $serializer;
 
-	/** @var \SixtyEightPublishers\PoiBundle\Attribute\Collection\AttributeCollectionInterface  */
-	private $attributeCollection;
+	private AttributeCollectionInterface $attributeCollection;
 
 	/**
 	 * @param \SixtyEightPublishers\PoiBundle\Attribute\Value\CollectionSerializer\CollectionSerializerInterface $serializer

@@ -11,7 +11,7 @@ use SixtyEightPublishers\PoiBundle\Exception\InvalidArgumentException;
 class ArrayAttributeCollection implements AttributeCollectionInterface
 {
 	/** @var \SixtyEightPublishers\PoiBundle\Attribute\AttributeInterface[] */
-	private $attributes;
+	private array $attributes;
 
 	/**
 	 * @param \SixtyEightPublishers\PoiBundle\Attribute\AttributeInterface[] $attributes

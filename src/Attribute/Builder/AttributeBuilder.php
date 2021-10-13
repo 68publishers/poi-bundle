@@ -4,30 +4,37 @@ declare(strict_types=1);
 
 namespace SixtyEightPublishers\PoiBundle\Attribute\Builder;
 
+use DateTime;
 use SixtyEightPublishers\PoiBundle\Attribute\Attribute;
+use SixtyEightPublishers\PoiBundle\Attribute\Type\Mixed;
+use SixtyEightPublishers\PoiBundle\Attribute\Type\Instance;
 use SixtyEightPublishers\PoiBundle\Exception\RuntimeException;
 use SixtyEightPublishers\PoiBundle\Attribute\AttributeInterface;
+use SixtyEightPublishers\PoiBundle\Attribute\Type\TypeInterface;
 use SixtyEightPublishers\PoiBundle\Attribute\ModifiableAttribute;
 use SixtyEightPublishers\PoiBundle\Attribute\ValidatableAttribute;
 use SixtyEightPublishers\PoiBundle\Attribute\SerializableAttribute;
+use SixtyEightPublishers\PoiBundle\Attribute\Validator\ValidatorInterface;
+use SixtyEightPublishers\PoiBundle\Attribute\Value\ValueSerializer\DateTimeValueSerializer;
 use SixtyEightPublishers\PoiBundle\Attribute\Value\ValueSerializer\ValueSerializerInterface;
+use DateTimeZone;
+use DateTimeImmutable;
+use SixtyEightPublishers\PoiBundle\Attribute\Value\ValueSerializer\DateTimeZoneValueSerializer;
+use SixtyEightPublishers\PoiBundle\Attribute\Value\ValueSerializer\DateTimeImmutableValueSerializer;
 
 class AttributeBuilder implements AttributeBuilderInterface
 {
-	/** @var string|NULL */
-	private $name;
+	private ?string $name = NULL;
 
-	/** @var bool  */
-	private $nullable = FALSE;
+	private ?TypeInterface $type = NULL;
 
 	/** @var mixed|NULL  */
 	private $defaultValue;
 
-	/** @var array  */
-	private $extra = [];
+	private array $extra = [];
 
 	/** @var callable[]  */
-	private $decorators = [];
+	private array $decorators = [];
 
 	/**
 	 * {@inheritDoc}
@@ -42,9 +49,20 @@ class AttributeBuilder implements AttributeBuilderInterface
 	/**
 	 * {@inheritDoc}
 	 */
-	public function setNullable(bool $nullable = TRUE): AttributeBuilderInterface
+	public function setType(TypeInterface $type): AttributeBuilderInterface
 	{
-		$this->nullable = $nullable;
+		$this->type = $type;
+
+		if ($type instanceof Instance) {
+			switch ($type->getClassName()) {
+				case DateTime::class:
+					return $this->serializable(new DateTimeValueSerializer());
+				case DateTimeImmutable::class:
+					return $this->serializable(new DateTimeImmutableValueSerializer());
+				case DateTimeZone::class:
+					return $this->serializable(new DateTimeZoneValueSerializer());
+			}
+		}
 
 		return $this;
 	}
@@ -82,7 +100,7 @@ class AttributeBuilder implements AttributeBuilderInterface
 	/**
 	 * {@inheritDoc}
 	 */
-	public function validatable(callable $validator, bool $validateOnGet = FALSE): AttributeBuilderInterface
+	public function validatable(ValidatorInterface $validator, bool $validateOnGet = FALSE): AttributeBuilderInterface
 	{
 		return $this->decorate(static function (AttributeInterface $attribute) use ($validator, $validateOnGet): AttributeInterface {
 			return new ValidatableAttribute($attribute, $validator, $validateOnGet);
@@ -114,8 +132,7 @@ class AttributeBuilder implements AttributeBuilderInterface
 	 */
 	public function reset(): void
 	{
-		$this->name = $this->defaultValue = NULL;
-		$this->nullable = FALSE;
+		$this->name = $this->type = $this->defaultValue = NULL;
 		$this->extra = $this->decorators = [];
 	}
 
@@ -131,7 +148,7 @@ class AttributeBuilder implements AttributeBuilderInterface
 			));
 		}
 
-		$attribute = new Attribute($this->name, $this->nullable, $this->defaultValue);
+		$attribute = new Attribute($this->name, $this->type ?? new Mixed(), $this->defaultValue);
 
 		foreach ($this->decorators as $decorator) {
 			$attribute = $decorator($attribute);

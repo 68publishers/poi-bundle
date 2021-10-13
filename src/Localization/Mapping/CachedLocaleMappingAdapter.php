@@ -11,14 +11,11 @@ use Doctrine\ORM\EntityManagerInterface;
 
 final class CachedLocaleMappingAdapter implements LocaleMappingAdapterInterface
 {
-	/** @var \SixtyEightPublishers\PoiBundle\Localization\Mapping\LocaleMappingAdapterInterface  */
-	private $localeAdapter;
+	private LocaleMappingAdapterInterface $localeAdapter;
 
-	/** @var \Doctrine\ORM\EntityManagerInterface  */
-	private $em;
+	private EntityManagerInterface $em;
 
-	/** @var array  */
-	private $runtimeCache = [];
+	private array $runtimeCache = [];
 
 	/**
 	 * @param \SixtyEightPublishers\PoiBundle\Localization\Mapping\LocaleMappingAdapterInterface $localeAdapter

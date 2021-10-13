@@ -10,7 +10,8 @@
 		}
 	],
 	"require": {
-		"php": "^7.3",
+		"php": "^7.4",
+		"ext-json": "*",
 		"68publishers/doctrine-bridge": "^0.1.1",
 		"68publishers/translation-bridge": "^1.2.4",
 		"doctrine/orm": "^2.7",
@@ -18,10 +19,12 @@
 		"nette/finder": "^2.5"
 	},
 	"require-dev": {
-		"friendsofphp/php-cs-fixer": "^2.0",
+		"friendsofphp/php-cs-fixer": "^2.19",
+		"gedmo/doctrine-extensions": "^3.0",
+		"nette/forms": "^3.0",
 		"nette/tester": "^2.3.4",
 		"nette/utils": "^3.0",
-		"roave/security-advisories": "dev-master"
+		"roave/security-advisories": "dev-latest"
 	},
 	"autoload": {
 		"psr-4": {

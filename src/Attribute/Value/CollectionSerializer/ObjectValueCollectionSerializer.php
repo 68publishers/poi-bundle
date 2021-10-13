@@ -10,11 +10,9 @@ use SixtyEightPublishers\PoiBundle\Attribute\Value\ValueSerializer\ValueSerializ
 
 final class ObjectValueCollectionSerializer implements CollectionSerializerInterface
 {
-	/** @var \SixtyEightPublishers\PoiBundle\Attribute\Value\CollectionSerializer\CollectionSerializerInterface  */
-	private $serializer;
+	private CollectionSerializerInterface $serializer;
 
-	/** @var \SixtyEightPublishers\PoiBundle\Attribute\Collection\AttributeCollectionInterface  */
-	private $objectValueCollectionClassName;
+	private string $objectValueCollectionClassName;
 
 	/**
 	 * @param \SixtyEightPublishers\PoiBundle\Attribute\Value\CollectionSerializer\CollectionSerializerInterface $serializer

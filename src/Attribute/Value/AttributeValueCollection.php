@@ -11,11 +11,9 @@ use SixtyEightPublishers\PoiBundle\Attribute\Collection\AttributeCollectionInter
 
 final class AttributeValueCollection implements ValueCollectionInterface
 {
-	/** @var \SixtyEightPublishers\PoiBundle\Attribute\Collection\AttributeCollectionInterface  */
-	private $attributeCollection;
+	private AttributeCollectionInterface $attributeCollection;
 
-	/** @var \SixtyEightPublishers\PoiBundle\Attribute\Value\ValueCollectionInterface  */
-	private $valueCollection;
+	private ValueCollectionInterface $valueCollection;
 
 	/**
 	 * @param \SixtyEightPublishers\PoiBundle\Attribute\Collection\AttributeCollectionInterface $attributeCollection

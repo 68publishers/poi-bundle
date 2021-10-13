@@ -20,11 +20,9 @@ final class AttributesType extends Type implements ContainerAwareTypeInterface
 {
 	public const CONTEXT_KEY_NAME = 'name';
 
-	/** @var string|NULL */
-	private $name;
+	private ?string $name = NULL;
 
-	/** @var \SixtyEightPublishers\PoiBundle\Attribute\Value\CollectionSerializer\CollectionSerializerInterface|NULL */
-	private $valueCollectionSerializer;
+	private ?CollectionSerializerInterface $valueCollectionSerializer = NULL;
 
 	/**
 	 * @internal

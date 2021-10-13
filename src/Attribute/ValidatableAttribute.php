@@ -4,28 +4,35 @@ declare(strict_types=1);
 
 namespace SixtyEightPublishers\PoiBundle\Attribute;
 
+use SixtyEightPublishers\PoiBundle\Attribute\Validator\ValidatorInterface;
 use SixtyEightPublishers\PoiBundle\Attribute\Value\ValueCollectionInterface;
 use SixtyEightPublishers\PoiBundle\Attribute\Exception\AttributeValueException;
 
 final class ValidatableAttribute extends AbstractAttributeDecorator
 {
-	/** @var callable  */
-	private $validator;
+	private ValidatorInterface $validator;
 
-	/** @var bool  */
-	private $validateOnGet;
+	private bool $validateOnGet;
 
 	/**
 	 * @param \SixtyEightPublishers\PoiBundle\Attribute\AttributeInterface $attribute
-	 * @param callable                                                     $validator
-	 * @param bool                                                         $validateOnGet
+	 * @param \SixtyEightPublishers\PoiBundle\Attribute\Validator\ValidatorInterface $validator
+	 * @param bool $validateOnGet
 	 */
-	public function __construct(AttributeInterface $attribute, callable $validator, bool $validateOnGet = FALSE)
+	public function __construct(AttributeInterface $attribute, ValidatorInterface $validator, bool $validateOnGet = FALSE)
 	{
 		parent::__construct($attribute);
 
 		$this->validator = $validator;
 		$this->validateOnGet = $validateOnGet;
+	}
+
+	/**
+	 * @return \SixtyEightPublishers\PoiBundle\Attribute\Validator\ValidatorInterface
+	 */
+	public function getValidator(): ValidatorInterface
+	{
+		return $this->validator;
 	}
 
 	/**
@@ -59,23 +66,20 @@ final class ValidatableAttribute extends AbstractAttributeDecorator
 	 */
 	private function validate($value): void
 	{
-		if (NULL === $value && $this->isNullable()) {
+		if (NULL === $value && $this->getType()->isNullable()) {
 			return;
 		}
 
-		$validator = $this->validator;
-
 		try {
-			if (!$validator($value)) {
-				throw AttributeValueException::validationError('');
-			}
+			$this->getType()->validate($value);
+			$this->validator->validate($value);
 		} catch (AttributeValueException $e) {
 			if ($e::CODE_VALIDATION_ERROR === $e->getCode()) {
 				$e = AttributeValueException::validationError(sprintf(
-					'Invalid value for attribute %s.%s',
+					'Invalid value for attribute "%s".%s',
 					$this->getName(),
 					empty($e->getMessage()) ? '' : (' ' . $e->getMessage())
-				));
+				), $e);
 			}
 
 			throw $e;

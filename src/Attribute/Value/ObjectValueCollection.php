@@ -8,8 +8,7 @@ use Traversable;
 
 class ObjectValueCollection implements ValueCollectionInterface
 {
-	/** @var \SixtyEightPublishers\PoiBundle\Attribute\Value\ArrayValueCollection|\SixtyEightPublishers\PoiBundle\Attribute\Value\ValueCollectionInterface  */
-	private $inner;
+	private ValueCollectionInterface $inner;
 
 	/**
 	 * @param \SixtyEightPublishers\PoiBundle\Attribute\Value\ValueCollectionInterface|NULL $inner

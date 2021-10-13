@@ -11,7 +11,7 @@ final class DateTimeImmutableValueSerializer implements ValueSerializerInterface
 	/**
 	 * {@inheritDoc}
 	 */
-	public function serialize($value)
+	public function serialize($value): ?string
 	{
 		if (NULL === $value) {
 			return NULL;
@@ -27,7 +27,7 @@ final class DateTimeImmutableValueSerializer implements ValueSerializerInterface
 	 *
 	 * @throws \Exception
 	 */
-	public function deserialize($value)
+	public function deserialize($value): ?DateTimeImmutable
 	{
 		if (NULL !== $value) {
 			$value = new DateTimeImmutable($value);

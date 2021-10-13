@@ -18,14 +18,11 @@ use SixtyEightPublishers\PoiBundle\Attribute\Value\ValueCollectionInterface;
 
 final class WatchAttributeChangesSubscriber implements EventSubscriber
 {
-	/** @var \SixtyEightPublishers\PoiBundle\Attribute\Stack\StackProviderInterface  */
-	private $stackProvider;
+	private StackProviderInterface $stackProvider;
 
-	/** @var array|NULL */
-	private $attributesDoctrineTypeNames;
+	private ?array $attributesDoctrineTypeNames = NULL;
 
-	/** @var array  */
-	private $localStorage = [];
+	private array $localStorage = [];
 
 	/**
 	 * @param \SixtyEightPublishers\PoiBundle\Attribute\Stack\StackProviderInterface $stackProvider

@@ -11,8 +11,7 @@ final class ModifiableAttribute extends AbstractAttributeDecorator
 	public const MODIFIER_GET_VALUE = 'getValue';
 	public const MODIFIER_SET_VALUE = 'setValue';
 
-	/** @var array  */
-	private $modifiers;
+	private array $modifiers;
 
 	/**
 	 * @param \SixtyEightPublishers\PoiBundle\Attribute\AttributeInterface $attribute
@@ -53,7 +52,7 @@ final class ModifiableAttribute extends AbstractAttributeDecorator
 	 */
 	private function modify($value, string $type)
 	{
-		if (NULL === $value && $this->isNullable()) {
+		if (NULL === $value && $this->getType()->isNullable()) {
 			return $value;
 		}
 
