@@ -1,0 +1,10 @@
+services:
+	form_attributes.facade:
+		type: SixtyEightPublishers\PoiBundle\Bridge\Nette\Forms\Attribute\FormAttributeFacadeInterface
+		factory: @extension.form_attributes.facade.defaul
+
+	form_attributes.facade.defaul:
+		type: SixtyEightPublishers\PoiBundle\Bridge\Nette\Forms\Attribute\FormAttributeFacadeInterface
+		factory: SixtyEightPublishers\PoiBundle\Bridge\Nette\Forms\Attribute\FormAttributeFacade
+		arguments:
+			formFieldFactory: @extension.form_attributes.field_factory

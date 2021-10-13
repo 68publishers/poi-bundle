@@ -1,0 +1,28 @@
+services:
+	form_attributes.validation_rule_applicator:
+		autowired: no
+		type: SixtyEightPublishers\PoiBundle\Bridge\Nette\Forms\Attribute\ValidationRuleApplicator\ValidationRuleApplicatorInterface
+		factory: SixtyEightPublishers\PoiBundle\Bridge\Nette\Forms\Attribute\ValidationRuleApplicator\ValidationRuleApplicatorRegistry(
+			typed(SixtyEightPublishers\PoiBundle\Bridge\Nette\Forms\Attribute\ValidationRuleApplicator\ValidationRuleApplicatorInterface)
+		)
+
+	# specific validators
+	form_attributes.validation_rule_applicator.email:
+		autowired: no
+		type: SixtyEightPublishers\PoiBundle\Bridge\Nette\Forms\Attribute\ValidationRuleApplicator\ValidationRuleApplicatorInterface
+		factory: SixtyEightPublishers\PoiBundle\Bridge\Nette\Forms\Attribute\ValidationRuleApplicator\EmailValidationRuleApplicator()
+
+	form_attributes.validation_rule_applicator.length:
+		autowired: no
+		type: SixtyEightPublishers\PoiBundle\Bridge\Nette\Forms\Attribute\ValidationRuleApplicator\ValidationRuleApplicatorInterface
+		factory: SixtyEightPublishers\PoiBundle\Bridge\Nette\Forms\Attribute\ValidationRuleApplicator\LengthValidationRuleApplicator()
+
+	form_attributes.validation_rule_applicator.range:
+		autowired: no
+		type: SixtyEightPublishers\PoiBundle\Bridge\Nette\Forms\Attribute\ValidationRuleApplicator\ValidationRuleApplicatorInterface
+		factory: SixtyEightPublishers\PoiBundle\Bridge\Nette\Forms\Attribute\ValidationRuleApplicator\RangeValidationRuleApplicator()
+
+	form_attributes.validation_rule_applicator.regex:
+		autowired: no
+		type: SixtyEightPublishers\PoiBundle\Bridge\Nette\Forms\Attribute\ValidationRuleApplicator\ValidationRuleApplicatorInterface
+		factory: SixtyEightPublishers\PoiBundle\Bridge\Nette\Forms\Attribute\ValidationRuleApplicator\RegexValidationRuleApplicator()

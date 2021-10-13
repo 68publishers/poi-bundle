@@ -1,0 +1,48 @@
+services:
+	form_attributes.field_factory:
+		autowired: no
+		type: SixtyEightPublishers\PoiBundle\Bridge\Nette\Forms\Attribute\FieldFactory\FormFieldFactoryInterface
+		factory: @extension.form_attributes.field_factory.with_validation_rules
+
+	form_attributes.field_factory.with_validation_rules:
+		autowired: no
+		type: SixtyEightPublishers\PoiBundle\Bridge\Nette\Forms\Attribute\FieldFactory\FormFieldFactoryInterface
+		factory: SixtyEightPublishers\PoiBundle\Bridge\Nette\Forms\Attribute\FieldFactory\FormFieldFactoryWithValidationRules(
+			@extension.form_attributes.field_factory.custom
+			@extension.form_attributes.validation_rule_applicator
+		)
+
+	form_attributes.field_factory.custom:
+		autowired: no
+		type: SixtyEightPublishers\PoiBundle\Bridge\Nette\Forms\Attribute\FieldFactory\FormFieldFactoryInterface
+		factory: SixtyEightPublishers\PoiBundle\Bridge\Nette\Forms\Attribute\FieldFactory\CustomFormFieldFactory(
+			@extension.form_attributes.field_factory.registry
+		)
+
+	form_attributes.field_factory.registry:
+		autowired: no
+		type: SixtyEightPublishers\PoiBundle\Bridge\Nette\Forms\Attribute\FieldFactory\FormFieldFactoryInterface
+		factory: SixtyEightPublishers\PoiBundle\Bridge\Nette\Forms\Attribute\FieldFactory\FormFieldFactoryRegistry(
+			typed(SixtyEightPublishers\PoiBundle\Bridge\Nette\Forms\Attribute\FieldFactory\ChainableFormFieldFactoryInterface)
+		)
+
+	# chainable
+	form_attributes.field_factory.chainable.bool:
+		autowired: no
+		type: SixtyEightPublishers\PoiBundle\Bridge\Nette\Forms\Attribute\FieldFactory\ChainableFormFieldFactoryInterface
+		factory: SixtyEightPublishers\PoiBundle\Bridge\Nette\Forms\Attribute\FieldFactory\Chainable\BoolFormFieldFactory()
+
+	form_attributes.field_factory.chainable.enum:
+		autowired: no
+		type: SixtyEightPublishers\PoiBundle\Bridge\Nette\Forms\Attribute\FieldFactory\ChainableFormFieldFactoryInterface
+		factory: SixtyEightPublishers\PoiBundle\Bridge\Nette\Forms\Attribute\FieldFactory\Chainable\EnumFormFieldFactory()
+
+	form_attributes.field_factory.chainable.multi_enum:
+		autowired: no
+		type: SixtyEightPublishers\PoiBundle\Bridge\Nette\Forms\Attribute\FieldFactory\ChainableFormFieldFactoryInterface
+		factory: SixtyEightPublishers\PoiBundle\Bridge\Nette\Forms\Attribute\FieldFactory\Chainable\MultiEnumFormFieldFactory()
+
+	form_attributes.field_factory.chainable.text:
+		autowired: no
+		type: SixtyEightPublishers\PoiBundle\Bridge\Nette\Forms\Attribute\FieldFactory\ChainableFormFieldFactoryInterface
+		factory: SixtyEightPublishers\PoiBundle\Bridge\Nette\Forms\Attribute\FieldFactory\Chainable\TextFormFieldFactory()
