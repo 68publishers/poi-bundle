@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace SixtyEightPublishers\PoiBundle\Attribute\Type;
 
 use SixtyEightPublishers\PoiBundle\Attribute\Exception\AttributeValueException;
@@ -13,9 +15,9 @@ final class ArrayOf implements TypeInterface
 	private bool $nullable;
 
 	/**
-	 * @param \SixtyEightPublishers\PoiBundle\Attribute\Type\TypeInterface $valueType
+	 * @param \SixtyEightPublishers\PoiBundle\Attribute\Type\TypeInterface      $valueType
 	 * @param \SixtyEightPublishers\PoiBundle\Attribute\Type\TypeInterface|null $keyType
-	 * @param bool $nullable
+	 * @param bool                                                              $nullable
 	 */
 	public function __construct(TypeInterface $valueType, ?TypeInterface $keyType = NULL, bool $nullable = FALSE)
 	{

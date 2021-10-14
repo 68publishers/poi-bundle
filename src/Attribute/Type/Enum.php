@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace SixtyEightPublishers\PoiBundle\Attribute\Type;
 
 use SixtyEightPublishers\PoiBundle\Attribute\Exception\AttributeValueException;
@@ -12,7 +14,7 @@ class Enum implements TypeInterface
 
 	/**
 	 * @param array $values
-	 * @param bool $nullable
+	 * @param bool  $nullable
 	 */
 	public function __construct(array $values, bool $nullable = FALSE)
 	{
@@ -22,11 +24,11 @@ class Enum implements TypeInterface
 
 	/**
 	 * @param array $values
-	 * @param bool $nullable
+	 * @param bool  $nullable
 	 *
 	 * @return \SixtyEightPublishers\PoiBundle\Attribute\Type\Enum
 	 */
-	public static function from(array $values, bool $nullable = FALSE) : self
+	public static function from(array $values, bool $nullable = FALSE): self
 	{
 		return new static($values, $nullable);
 	}
@@ -75,7 +77,7 @@ class Enum implements TypeInterface
 	 * @return void
 	 * @throws \SixtyEightPublishers\PoiBundle\Attribute\Exception\AttributeValueException
 	 */
-	protected function doValidate($value) : void
+	protected function doValidate($value): void
 	{
 		if (!in_array($value, $this->getValues(), TRUE)) {
 			throw AttributeValueException::validationError(sprintf(

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace SixtyEightPublishers\PoiBundle\Attribute\Type;
 
 use SixtyEightPublishers\PoiBundle\Exception\InvalidArgumentException;
@@ -25,7 +27,7 @@ final class Scalar implements TypeInterface
 
 	/**
 	 * @param string $type
-	 * @param bool $nullable
+	 * @param bool   $nullable
 	 */
 	public function __construct(string $type, bool $nullable = FALSE)
 	{
@@ -45,7 +47,7 @@ final class Scalar implements TypeInterface
 	 *
 	 * @return \SixtyEightPublishers\PoiBundle\Attribute\Type\Scalar
 	 */
-	public static function string(bool $nullable = FALSE) : self
+	public static function string(bool $nullable = FALSE): self
 	{
 		return new self(self::TYPE_STRING, $nullable);
 	}
@@ -55,7 +57,7 @@ final class Scalar implements TypeInterface
 	 *
 	 * @return \SixtyEightPublishers\PoiBundle\Attribute\Type\Scalar
 	 */
-	public static function int(bool $nullable = FALSE) : self
+	public static function int(bool $nullable = FALSE): self
 	{
 		return new self(self::TYPE_INT, $nullable);
 	}
@@ -65,7 +67,7 @@ final class Scalar implements TypeInterface
 	 *
 	 * @return \SixtyEightPublishers\PoiBundle\Attribute\Type\Scalar
 	 */
-	public static function float(bool $nullable = FALSE) : self
+	public static function float(bool $nullable = FALSE): self
 	{
 		return new self(self::TYPE_FLOAT, $nullable);
 	}
@@ -75,7 +77,7 @@ final class Scalar implements TypeInterface
 	 *
 	 * @return \SixtyEightPublishers\PoiBundle\Attribute\Type\Scalar
 	 */
-	public static function bool(bool $nullable = FALSE) : self
+	public static function bool(bool $nullable = FALSE): self
 	{
 		return new self(self::TYPE_BOOL, $nullable);
 	}
@@ -129,7 +131,7 @@ final class Scalar implements TypeInterface
 	 *
 	 * @return bool
 	 */
-	private function isValid($value) : bool
+	private function isValid($value): bool
 	{
 		switch ($this->getType()) {
 			case self::TYPE_STRING:

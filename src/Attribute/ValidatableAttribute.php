@@ -15,9 +15,9 @@ final class ValidatableAttribute extends AbstractAttributeDecorator
 	private bool $validateOnGet;
 
 	/**
-	 * @param \SixtyEightPublishers\PoiBundle\Attribute\AttributeInterface $attribute
+	 * @param \SixtyEightPublishers\PoiBundle\Attribute\AttributeInterface           $attribute
 	 * @param \SixtyEightPublishers\PoiBundle\Attribute\Validator\ValidatorInterface $validator
-	 * @param bool $validateOnGet
+	 * @param bool                                                                   $validateOnGet
 	 */
 	public function __construct(AttributeInterface $attribute, ValidatorInterface $validator, bool $validateOnGet = FALSE)
 	{

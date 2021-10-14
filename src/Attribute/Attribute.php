@@ -20,9 +20,9 @@ final class Attribute implements AttributeInterface
 	private array $extra = [];
 
 	/**
-	 * @param string $name
+	 * @param string                                                       $name
 	 * @param \SixtyEightPublishers\PoiBundle\Attribute\Type\TypeInterface $type
-	 * @param mixed|NULL $defaultValue
+	 * @param mixed|NULL                                                   $defaultValue
 	 */
 	public function __construct(string $name, TypeInterface $type, $defaultValue = NULL)
 	{

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace SixtyEightPublishers\PoiBundle\Attribute\Type;
 
 use SixtyEightPublishers\PoiBundle\Attribute\Exception\AttributeValueException;
@@ -12,7 +14,7 @@ final class Instance implements TypeInterface
 
 	/**
 	 * @param string $className
-	 * @param bool $nullable
+	 * @param bool   $nullable
 	 */
 	public function __construct(string $className, bool $nullable = FALSE)
 	{
@@ -22,11 +24,11 @@ final class Instance implements TypeInterface
 
 	/**
 	 * @param string $className
-	 * @param bool $nullable
+	 * @param bool   $nullable
 	 *
 	 * @return \SixtyEightPublishers\PoiBundle\Attribute\Type\Instance
 	 */
-	public static function of(string $className, bool $nullable = FALSE) : self
+	public static function of(string $className, bool $nullable = FALSE): self
 	{
 		return new self($className, $nullable);
 	}

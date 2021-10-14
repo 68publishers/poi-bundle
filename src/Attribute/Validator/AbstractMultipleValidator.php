@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace SixtyEightPublishers\PoiBundle\Attribute\Validator;
 
 abstract class AbstractMultipleValidator implements ValidatorInterface
