@@ -26,3 +26,8 @@ services:
 		autowired: no
 		type: SixtyEightPublishers\PoiBundle\Bridge\Nette\Forms\Attribute\ValidationRuleApplicator\ValidationRuleApplicatorInterface
 		factory: SixtyEightPublishers\PoiBundle\Bridge\Nette\Forms\Attribute\ValidationRuleApplicator\RegexValidationRuleApplicator()
+
+	form_attributes.validation_rule_applicator.url:
+		autowired: no
+		type: SixtyEightPublishers\PoiBundle\Bridge\Nette\Forms\Attribute\ValidationRuleApplicator\ValidationRuleApplicatorInterface
+		factory: SixtyEightPublishers\PoiBundle\Bridge\Nette\Forms\Attribute\ValidationRuleApplicator\UrlValidationRuleApplicator()
