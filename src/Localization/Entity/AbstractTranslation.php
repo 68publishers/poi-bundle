@@ -47,14 +47,14 @@ abstract class AbstractTranslation implements TranslationInterface
 	/**
 	 * @param \SixtyEightPublishers\PoiBundle\Localization\Entity\TranslatableEntityInterface $object
 	 * @param string                                                                          $locale
-	 * @param string                                                                          $filed
+	 * @param string                                                                          $field
 	 * @param string                                                                          $content
 	 */
-	public function __construct(TranslatableEntityInterface $object, string $locale, string $filed, string $content)
+	public function __construct(TranslatableEntityInterface $object, string $locale, string $field, string $content)
 	{
 		$this->object = $object;
 		$this->locale = $locale;
-		$this->field = $filed;
+		$this->field = $field;
 		$this->content = $content;
 
 		if (!$object->getTranslations()->contains($this)) {
