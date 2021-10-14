@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace SixtyEightPublishers\PoiBundle\Bridge\Nette\Forms\Attribute\FieldFactory;
 
 use Nette\Forms\IControl;

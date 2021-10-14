@@ -26,5 +26,5 @@ interface FormAttributeFacadeInterface
 	 *
 	 * @return \SixtyEightPublishers\PoiBundle\Attribute\Value\ValueCollectionInterface|mixed
 	 */
-	public function mapValues(string $stackName, $values, ?ValueCollectionInterface $valueCollection): ValueCollectionInterface;
+	public function mapValues(string $stackName, $values, ?ValueCollectionInterface $valueCollection = NULL): ValueCollectionInterface;
 }

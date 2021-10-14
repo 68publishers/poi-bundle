@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace SixtyEightPublishers\PoiBundle\Bridge\Nette\Forms\Attribute\FieldFactory;
 
 use Nette\Forms\IControl;
@@ -13,7 +15,7 @@ final class FormFieldFactoryWithValidationRules implements FormFieldFactoryInter
 	private ValidationRuleApplicatorInterface $validationRuleApplicator;
 
 	/**
-	 * @param \SixtyEightPublishers\PoiBundle\Bridge\Nette\Forms\Attribute\FieldFactory\FormFieldFactoryInterface $formFieldFactory
+	 * @param \SixtyEightPublishers\PoiBundle\Bridge\Nette\Forms\Attribute\FieldFactory\FormFieldFactoryInterface                     $formFieldFactory
 	 * @param \SixtyEightPublishers\PoiBundle\Bridge\Nette\Forms\Attribute\ValidationRuleApplicator\ValidationRuleApplicatorInterface $validationRuleApplicator
 	 */
 	public function __construct(FormFieldFactoryInterface $formFieldFactory, ValidationRuleApplicatorInterface $validationRuleApplicator)

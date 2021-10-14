@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace SixtyEightPublishers\PoiBundle\Bridge\Nette\Forms\Attribute\FieldFactory;
 
 use Nette\Forms\IControl;
@@ -16,7 +18,7 @@ final class FormFieldFactoryRegistry implements FormFieldFactoryInterface
 	 */
 	public function __construct(array $fieldFactories)
 	{
-		$this->fieldFactories = (static fn (ChainableFormFieldFactoryInterface ...$fieldFactories) : array => $fieldFactories)(...$fieldFactories);
+		$this->fieldFactories = (static fn (ChainableFormFieldFactoryInterface ...$fieldFactories): array => $fieldFactories)(...$fieldFactories);
 	}
 
 	/**

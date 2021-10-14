@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace SixtyEightPublishers\PoiBundle\Bridge\Nette\Forms\Attribute\ValidationRuleApplicator;
 
 use Nette\Forms\IControl;
@@ -15,7 +17,7 @@ final class ValidationRuleApplicatorRegistry implements ValidationRuleApplicator
 	 */
 	public function __construct(array $validationRuleApplicators)
 	{
-		$this->validationRuleApplicators = (static fn (ValidationRuleApplicatorInterface ...$validationRuleApplicators) : array => $validationRuleApplicators)(...$validationRuleApplicators);
+		$this->validationRuleApplicators = (static fn (ValidationRuleApplicatorInterface ...$validationRuleApplicators): array => $validationRuleApplicators)(...$validationRuleApplicators);
 	}
 
 	/**

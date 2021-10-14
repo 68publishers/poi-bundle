@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace SixtyEightPublishers\PoiBundle\Bridge\Nette\Forms\Attribute;
 
 use Traversable;
@@ -16,7 +18,7 @@ final class FormAttributeFacade implements FormAttributeFacadeInterface
 	private FormFieldFactoryInterface $formFieldFactory;
 
 	/**
-	 * @param \SixtyEightPublishers\PoiBundle\Attribute\Stack\StackProviderInterface $stackProvider
+	 * @param \SixtyEightPublishers\PoiBundle\Attribute\Stack\StackProviderInterface                              $stackProvider
 	 * @param \SixtyEightPublishers\PoiBundle\Bridge\Nette\Forms\Attribute\FieldFactory\FormFieldFactoryInterface $formFieldFactory
 	 */
 	public function __construct(StackProviderInterface $stackProvider, FormFieldFactoryInterface $formFieldFactory)
@@ -52,11 +54,15 @@ final class FormAttributeFacade implements FormAttributeFacadeInterface
 	 *
 	 * @throws \SixtyEightPublishers\PoiBundle\Attribute\Exception\AttributeValueException
 	 */
-	public function mapValues(string $stackName, $values, ?ValueCollectionInterface $valueCollection): ValueCollectionInterface
+	public function mapValues(string $stackName, $values, ?ValueCollectionInterface $valueCollection = NULL): ValueCollectionInterface
 	{
 		$stack = $this->stackProvider->getStack($stackName);
-		$valueCollection = $valueCollection ?? new ($stack->getValueCollectionClassName());
 		$values = $values instanceof Traversable ? iterator_to_array($values) : (array) $values;
+
+		if (NULL === $valueCollection) {
+			$valueCollectionClassName = $stack->getValueCollectionClassName();
+			$valueCollection = new $valueCollectionClassName();
+		}
 
 		/** @var \SixtyEightPublishers\PoiBundle\Attribute\AttributeInterface $attribute */
 		foreach ($stack->getAttributes() as $attribute) {
@@ -78,7 +84,7 @@ final class FormAttributeFacade implements FormAttributeFacadeInterface
 
 	/**
 	 * @param \SixtyEightPublishers\PoiBundle\Attribute\Value\ValueCollectionInterface $valueCollection
-	 * @param string $name
+	 * @param string                                                                   $name
 	 *
 	 * @return mixed|NULL
 	 */
