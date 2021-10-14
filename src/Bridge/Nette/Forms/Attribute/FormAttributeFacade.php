@@ -58,11 +58,7 @@ final class FormAttributeFacade implements FormAttributeFacadeInterface
 	{
 		$stack = $this->stackProvider->getStack($stackName);
 		$values = $values instanceof Traversable ? iterator_to_array($values) : (array) $values;
-
-		if (NULL === $valueCollection) {
-			$valueCollectionClassName = $stack->getValueCollectionClassName();
-			$valueCollection = new $valueCollectionClassName();
-		}
+		$valueCollection = $valueCollection ?? $stack->getValueCollectionFactory()->create();
 
 		/** @var \SixtyEightPublishers\PoiBundle\Attribute\AttributeInterface $attribute */
 		foreach ($stack->getAttributes() as $attribute) {

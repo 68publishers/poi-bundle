@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace SixtyEightPublishers\PoiBundle\Attribute\Stack;
 
 use SixtyEightPublishers\PoiBundle\Attribute\Collection\AttributeCollectionInterface;
+use SixtyEightPublishers\PoiBundle\Attribute\Value\CollectionFactory\CollectionFactoryInterface;
 use SixtyEightPublishers\PoiBundle\Attribute\Value\CollectionSerializer\CollectionSerializerInterface;
 
 interface StackInterface
@@ -28,4 +29,9 @@ interface StackInterface
 	 * @return \SixtyEightPublishers\PoiBundle\Attribute\Value\CollectionSerializer\CollectionSerializerInterface|NULL
 	 */
 	public function getValueCollectionSerializer(): ?CollectionSerializerInterface;
+
+	/**
+	 * @return \SixtyEightPublishers\PoiBundle\Attribute\Value\CollectionFactory\CollectionFactoryInterface
+	 */
+	public function getValueCollectionFactory(): CollectionFactoryInterface;
 }

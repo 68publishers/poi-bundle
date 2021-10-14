@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace SixtyEightPublishers\PoiBundle\Attribute\Stack;
 
 use SixtyEightPublishers\PoiBundle\Attribute\Collection\AttributeCollectionInterface;
+use SixtyEightPublishers\PoiBundle\Attribute\Value\CollectionFactory\CollectionFactoryInterface;
 use SixtyEightPublishers\PoiBundle\Attribute\Value\CollectionSerializer\CollectionSerializerInterface;
 
 final class Stack implements StackInterface
@@ -13,6 +14,8 @@ final class Stack implements StackInterface
 
 	private AttributeCollectionInterface $attributeCollection;
 
+	private CollectionFactoryInterface $collectionFactory;
+
 	private ?string $valueCollectionClassName;
 
 	private ?CollectionSerializerInterface $collectionSerializer;
@@ -20,13 +23,15 @@ final class Stack implements StackInterface
 	/**
 	 * @param string                                                                                                  $name
 	 * @param \SixtyEightPublishers\PoiBundle\Attribute\Collection\AttributeCollectionInterface                       $attributeCollection
+	 * @param \SixtyEightPublishers\PoiBundle\Attribute\Value\CollectionFactory\CollectionFactoryInterface            $collectionFactory
 	 * @param string|NULL                                                                                             $valueCollectionClassName
 	 * @param \SixtyEightPublishers\PoiBundle\Attribute\Value\CollectionSerializer\CollectionSerializerInterface|NULL $collectionSerializer
 	 */
-	public function __construct(string $name, AttributeCollectionInterface $attributeCollection, ?string $valueCollectionClassName = NULL, ?CollectionSerializerInterface $collectionSerializer = NULL)
+	public function __construct(string $name, AttributeCollectionInterface $attributeCollection, CollectionFactoryInterface $collectionFactory, ?string $valueCollectionClassName = NULL, ?CollectionSerializerInterface $collectionSerializer = NULL)
 	{
 		$this->name = $name;
 		$this->attributeCollection = $attributeCollection;
+		$this->collectionFactory = $collectionFactory;
 		$this->valueCollectionClassName = $valueCollectionClassName;
 		$this->collectionSerializer = $collectionSerializer;
 	}
@@ -61,5 +66,13 @@ final class Stack implements StackInterface
 	public function getValueCollectionSerializer(): ?CollectionSerializerInterface
 	{
 		return $this->collectionSerializer;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getValueCollectionFactory(): CollectionFactoryInterface
+	{
+		return $this->collectionFactory;
 	}
 }

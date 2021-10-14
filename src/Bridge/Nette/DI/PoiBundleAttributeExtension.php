@@ -18,6 +18,10 @@ use SixtyEightPublishers\PoiBundle\Attribute\Collection\LazyAttributeCollection;
 use SixtyEightPublishers\PoiBundle\Attribute\DbalType\Attributes\AttributesType;
 use SixtyEightPublishers\PoiBundle\Attribute\Collection\AttributeCollectionInterface;
 use SixtyEightPublishers\PoiBundle\Attribute\Collection\AttributeCollectionFactoryInterface;
+use SixtyEightPublishers\PoiBundle\Attribute\Value\CollectionFactory\CollectionFactoryInterface;
+use SixtyEightPublishers\PoiBundle\Attribute\Value\CollectionFactory\ArrayValueCollectionFactory;
+use SixtyEightPublishers\PoiBundle\Attribute\Value\CollectionFactory\ObjectValueCollectionFactory;
+use SixtyEightPublishers\PoiBundle\Attribute\Value\CollectionFactory\AttributeValueCollectionFactory;
 use SixtyEightPublishers\PoiBundle\Attribute\Value\CollectionSerializer\CollectionSerializerInterface;
 use SixtyEightPublishers\PoiBundle\Attribute\Value\CollectionSerializer\ArrayValueCollectionSerializer;
 use SixtyEightPublishers\PoiBundle\Attribute\Value\CollectionSerializer\ObjectValueCollectionSerializer;
@@ -106,6 +110,32 @@ final class PoiBundleAttributeExtension extends CompilerExtension implements Dat
 			])
 			->setAutowired(FALSE);
 
+		$builder->addDefinition($this->prefix('attributes.value_collection_factory.' . $normalizedName . '.array'))
+			->setType(CollectionFactoryInterface::class)
+			->setFactory(ArrayValueCollectionFactory::class)
+			->setAutowired(FALSE);
+
+		$builder->addDefinition($this->prefix('attributes.value_collection_factory.' . $normalizedName . '.attribute'))
+			->setType(CollectionFactoryInterface::class)
+			->setFactory(AttributeValueCollectionFactory::class, [
+				$this->prefix('@attributes.value_collection_factory.' . $normalizedName . '.array'),
+				$this->prefix('@attributes.attribute_collection.lazy.' . $normalizedName),
+			])
+			->setAutowired(FALSE);
+
+		$builder->addDefinition($this->prefix('attributes.value_collection_factory.' . $normalizedName . '.object'))
+			->setType(CollectionFactoryInterface::class)
+			->setFactory(ObjectValueCollectionFactory::class, [
+				$this->prefix('@attributes.value_collection_factory.' . $normalizedName . '.attribute'),
+				$config->value_collection_class,
+			])
+			->setAutowired(FALSE);
+
+		$builder->addDefinition($this->prefix('attributes.value_collection_factory.' . $normalizedName))
+			->setType(CollectionFactoryInterface::class)
+			->setFactory($this->prefix('@attributes.value_collection_factory.' . $normalizedName . '.object'))
+			->setAutowired(FALSE);
+
 		if ($config->dbal_type) {
 			$builder->addDefinition($this->prefix('attributes.value_collection_serializer.' . $normalizedName . '.array'))
 				->setType(CollectionSerializerInterface::class)
@@ -139,6 +169,7 @@ final class PoiBundleAttributeExtension extends CompilerExtension implements Dat
 			->setFactory(Stack::class, [
 				'name' => $name,
 				'attributeCollection' => $this->prefix('@attributes.attribute_collection.lazy.' . $normalizedName),
+				'collectionFactory' => $this->prefix('@attributes.value_collection_factory.' . $normalizedName),
 				'valueCollectionClassName' => $config->dbal_type ? $config->value_collection_class : NULL,
 				'collectionSerializer' => $config->dbal_type ? $this->prefix('@attributes.value_collection_serializer.' . $normalizedName) : NULL,
 			]);
