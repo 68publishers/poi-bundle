@@ -26,7 +26,7 @@ trait TranslatableEntityTrait
 	 *
 	 * @var \SixtyEightPublishers\PoiBundle\Localization\LocaleInterface|NULL
 	 */
-	private ?LocaleInterface $localeObject = NULL;
+	protected ?LocaleInterface $localeObject = NULL;
 
 	/**
 	 * @return \Doctrine\Common\Collections\Collection|\SixtyEightPublishers\PoiBundle\Localization\Entity\TranslationInterface[]

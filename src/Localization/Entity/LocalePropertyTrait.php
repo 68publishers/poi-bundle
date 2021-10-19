@@ -15,7 +15,7 @@ trait LocalePropertyTrait
 	 *
 	 * @var \SixtyEightPublishers\PoiBundle\Localization\LocaleInterface|NULL
 	 */
-	private ?LocaleInterface $localeObject = NULL;
+	protected ?LocaleInterface $localeObject = NULL;
 
 	/**
 	 * @return \SixtyEightPublishers\PoiBundle\Localization\LocaleInterface
