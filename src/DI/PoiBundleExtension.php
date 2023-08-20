@@ -9,16 +9,16 @@ use Nette\Schema\Expect;
 use Nette\Schema\Schema;
 use Nette\DI\CompilerExtension;
 use Nette\DI\Definitions\Statement;
-use SixtyEightPublishers\DoctrineBridge\DI\DatabaseType;
-use SixtyEightPublishers\DoctrineBridge\DI\EntityMapping;
 use SixtyEightPublishers\PoiBundle\Attribute\Stack\Stack;
 use SixtyEightPublishers\PoiBundle\Attribute\Stack\StackInterface;
-use SixtyEightPublishers\DoctrineBridge\DI\DatabaseTypeProviderInterface;
+use SixtyEightPublishers\DoctrineBridge\Bridge\Nette\DI\DatabaseType;
+use SixtyEightPublishers\DoctrineBridge\Bridge\Nette\DI\EntityMapping;
 use SixtyEightPublishers\PoiBundle\Attribute\Value\ObjectValueCollection;
-use SixtyEightPublishers\DoctrineBridge\DI\EntityMappingProviderInterface;
 use SixtyEightPublishers\PoiBundle\Attribute\Collection\LazyAttributeCollection;
 use SixtyEightPublishers\PoiBundle\Attribute\DbalType\Attributes\AttributesType;
 use SixtyEightPublishers\PoiBundle\Attribute\Collection\AttributeCollectionInterface;
+use SixtyEightPublishers\DoctrineBridge\Bridge\Nette\DI\DatabaseTypeProviderInterface;
+use SixtyEightPublishers\DoctrineBridge\Bridge\Nette\DI\EntityMappingProviderInterface;
 use SixtyEightPublishers\PoiBundle\Attribute\Collection\AttributeCollectionFactoryInterface;
 use SixtyEightPublishers\PoiBundle\Attribute\Value\CollectionSerializer\CollectionSerializerInterface;
 use SixtyEightPublishers\PoiBundle\Attribute\Value\CollectionSerializer\ArrayValueCollectionSerializer;
@@ -91,7 +91,7 @@ final class PoiBundleExtension extends CompilerExtension implements DatabaseType
 	public function getEntityMappings(): array
 	{
 		return [
-			new EntityMapping(EntityMapping::DRIVER_ANNOTATIONS, 'SixtyEightPublishers\PoiBundle\Localization\Entity', __DIR__ . '/../Localization/Entity'),
+			new EntityMapping(EntityMapping::DRIVER_ANNOTATION, 'SixtyEightPublishers\PoiBundle\Localization\Entity', __DIR__ . '/../Localization/Entity'),
 		];
 	}
 

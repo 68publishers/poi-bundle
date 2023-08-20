@@ -6,7 +6,7 @@ namespace SixtyEightPublishers\PoiBundle\Localization\EventSubscriber;
 
 use Doctrine\ORM\Events;
 use Doctrine\Common\EventSubscriber;
-use Doctrine\ORM\Event\LifecycleEventArgs;
+use Doctrine\Persistence\Event\LifecycleEventArgs;
 use SixtyEightPublishers\PoiBundle\Localization\Locale;
 use SixtyEightPublishers\TranslationBridge\Localization\TranslatorLocalizerInterface;
 use SixtyEightPublishers\PoiBundle\Localization\Mapping\LocaleMappingAdapterInterface;
@@ -71,8 +71,8 @@ final class LocaleAwareEntitiesSubscriber implements EventSubscriber
 	 */
 	private function setupLocale(LifecycleEventArgs $args): void
 	{
-		$entity = $args->getEntity();
-		$metadata = $args->getEntityManager()->getClassMetadata(get_class($entity));
+		$entity = $args->getObject();
+		$metadata = $args->getObjectManager()->getClassMetadata(get_class($entity));
 		$properties = $this->localeMappingAdapter->getLocaleProperties($metadata);
 
 		if (empty($properties)) {

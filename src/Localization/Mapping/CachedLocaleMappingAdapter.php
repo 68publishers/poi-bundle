@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace SixtyEightPublishers\PoiBundle\Localization\Mapping;
 
 use ReflectionProperty;
+use ReflectionException;
 use Doctrine\Common\Cache\Cache;
 use Doctrine\ORM\Mapping\ClassMetadata;
+use Psr\Cache\InvalidArgumentException;
 use Doctrine\ORM\EntityManagerInterface;
 
 final class CachedLocaleMappingAdapter implements LocaleMappingAdapterInterface
@@ -32,37 +34,41 @@ final class CachedLocaleMappingAdapter implements LocaleMappingAdapterInterface
 
 	/**
 	 * {@inheritDoc}
-	 */
+     * @throws InvalidArgumentException|ReflectionException
+     */
 	public function getLocaleProperties(ClassMetadata $metadata): array
 	{
 		$className = $metadata->getName();
-		$cacheKey = $className . '__locale_fields';
+		$cacheKey = str_replace('\\', '_', $className) . '__locale_fields';
 
 		if (array_key_exists($cacheKey, $this->runtimeCache)) {
 			return $this->runtimeCache[$cacheKey];
 		}
 
-		$cache = $this->em->getMetadataFactory()->getCacheDriver();
+        $cache = $this->em->getConfiguration()->getMetadataCache();
+        $cacheItem = $cache ? $cache->getItem($cacheKey) : NULL;
 
 		if (!$cache instanceof Cache) {
 			return $this->runtimeCache[$cacheKey] = $this->localeAdapter->getLocaleProperties($metadata);
 		}
 
-		if ($cache->contains($cacheKey)) {
-			return $this->runtimeCache[$cacheKey] = array_map(static function (string $name) use ($className) {
-				$property = new ReflectionProperty($className, $name);
-				$property->setAccessible(TRUE);
+        if (NULL !== $cacheItem && $cacheItem->isHit()) {
+            return $this->runtimeCache[$cacheKey] = array_map(static function (string $name) use ($className) {
+                $property = new ReflectionProperty($className, $name);
+                $property->setAccessible(TRUE);
 
-				return $property;
-			}, $cache->fetch($cacheKey));
-		}
+                return $property;
+            }, $cacheItem->get());
+        }
 
-		$fields = $this->localeAdapter->getLocaleProperties($metadata);
+        $this->runtimeCache[$cacheKey] = $this->localeAdapter->getLocaleProperties($metadata);
 
-		$cache->save($cacheKey, array_map(static function (ReflectionProperty $property) {
-			return $property->getName();
-		}, $fields));
+        if (NULL !== $cacheItem) {
+            $cacheItem->set(array_map(static function (ReflectionProperty $property) {
+                return $property->getName();
+            }, $this->runtimeCache[$cacheKey]));
+        }
 
-		return $this->runtimeCache[$cacheKey] = $fields;
+		return $this->runtimeCache[$cacheKey];
 	}
 }
