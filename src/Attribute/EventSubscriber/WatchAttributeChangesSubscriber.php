@@ -6,10 +6,14 @@ namespace SixtyEightPublishers\PoiBundle\Attribute\EventSubscriber;
 
 use ReflectionClass;
 use Doctrine\ORM\Events;
+use ReflectionException;
 use Doctrine\Common\Cache\Cache;
 use Doctrine\Common\EventSubscriber;
+use Psr\Cache\CacheItemPoolInterface;
+use Psr\Cache\InvalidArgumentException;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Event\PreFlushEventArgs;
+use Doctrine\ORM\Mapping\MappingException;
 use Doctrine\Persistence\Mapping\ClassMetadata;
 use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
 use SixtyEightPublishers\PoiBundle\Attribute\Stack\StackInterface;
@@ -52,12 +56,12 @@ final class WatchAttributeChangesSubscriber implements EventSubscriber
 	 *
 	 * @return void
 	 * @throws \Doctrine\ORM\Mapping\MappingException
-	 * @throws \ReflectionException
+	 * @throws ReflectionException
 	 */
 	public function loadClassMetadata(LoadClassMetadataEventArgs $eventArgs): void
 	{
 		$metadata = $eventArgs->getClassMetadata();
-		$cache = $eventArgs->getEntityManager()->getMetadataFactory()->getCacheDriver();
+		$cache = $eventArgs->getEntityManager()->getConfiguration()->getMetadataCache();
 
 		if ($metadata->isMappedSuperclass || !$metadata->getReflectionClass()->isInstantiable() || !count($this->getAttributeFieldMetadata($metadata, $cache))) {
 			return;
@@ -74,7 +78,7 @@ final class WatchAttributeChangesSubscriber implements EventSubscriber
 	 *
 	 * @return void
 	 * @throws \Doctrine\Persistence\Mapping\MappingException
-	 * @throws \ReflectionException
+	 * @throws ReflectionException
 	 */
 	public function preFlush(object $entity, PreFlushEventArgs $args): void
 	{
@@ -82,9 +86,10 @@ final class WatchAttributeChangesSubscriber implements EventSubscriber
 
 		/** @var \Doctrine\ORM\Mapping\ClassMetadataFactory $metadataFactory */
 		$metadataFactory = $em->getMetadataFactory();
+        $cache = $em->getConfiguration()->getMetadataCache();
 
 		$metadata = $metadataFactory->getMetadataFor(get_class($entity));
-		$fieldMetadata = $this->getAttributeFieldMetadata($metadata, $metadataFactory->getCacheDriver());
+		$fieldMetadata = $this->getAttributeFieldMetadata($metadata, $cache);
 
 		if (!empty($fieldMetadata)) {
 			$this->updateAttributeFields($entity, $fieldMetadata, $em);
@@ -112,23 +117,23 @@ final class WatchAttributeChangesSubscriber implements EventSubscriber
 		}
 	}
 
-	/**
-	 * @param \Doctrine\Persistence\Mapping\ClassMetadata $metadata
-	 * @param \Doctrine\Common\Cache\Cache|NULL           $cache
-	 *
-	 * @return array
-	 * @throws \ReflectionException
-	 */
-	private function getAttributeFieldMetadata(ClassMetadata $metadata, ?Cache $cache): array
+    /**
+     * @throws ReflectionException
+     * @throws MappingException
+     * @throws InvalidArgumentException
+     */
+    private function getAttributeFieldMetadata(ClassMetadata $metadata, ?CacheItemPoolInterface $cache): array
 	{
-		$cacheKey = $metadata->getName() . '__attributes';
+		$cacheKey = str_replace('\\', '_', $metadata->getName()) . '__attributes';
 
 		if (array_key_exists($cacheKey, $this->localStorage)) {
 			return $this->localStorage[$cacheKey];
 		}
 
-		if (NULL !== $cache && $cache->contains($cacheKey)) {
-			return $this->localStorage[$cacheKey] = $cache->fetch($cacheKey);
+        $cacheItem = $cache ? $cache->getItem($cacheKey) : NULL;
+
+		if (NULL !== $cacheItem && $cacheItem->isHit()) {
+			return $this->localStorage[$cacheKey] = $cacheItem->get();
 		}
 
 		$fields = [];
@@ -147,8 +152,8 @@ final class WatchAttributeChangesSubscriber implements EventSubscriber
 			];
 		}
 
-		if (NULL !== $cache) {
-			$cache->save($cacheKey, $fields);
+		if (NULL !== $cacheItem) {
+			$cacheItem->set($fields);
 		}
 
 		return $this->localStorage[$cacheKey] = $fields;
